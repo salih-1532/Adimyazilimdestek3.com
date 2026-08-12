@@ -146,14 +146,6 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   border-radius:2px;
   flex:none;
 }
-.logo-img{
-  height:34px;
-  width:auto;
-  max-width:160px;
-  object-fit:contain;
-  flex:none;
-}
-
 .main-nav{
   display:flex;
   align-items:center;
@@ -361,7 +353,7 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .references .container{ text-align:left; margin-bottom:2.2rem; }
 
 .ref-banner{
-  --ref-item-w:260px;
+  --ref-item-w:300px;
   position:relative;
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
@@ -382,21 +374,24 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .ref-banner::before{ left:0; background:linear-gradient(90deg, var(--white), transparent); }
 .ref-banner::after{ right:0; background:linear-gradient(270deg, var(--white), transparent); }
 
+.ref-viewport{
+  overflow:hidden;
+  padding:0 24px;
+}
+
 .ref-track{
   display:flex;
   align-items:stretch;
   gap:1.5rem;
-  padding:0 24px;
-  overflow-x:auto;
-  cursor:grab;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-  touch-action:pan-y;
+  width:max-content;
+  animation:ref-scroll 34s linear infinite;
 }
-.ref-track:focus-visible{ outline-offset:-3px; }
-.ref-track::-webkit-scrollbar{ display:none; }
-.ref-track.dragging{ cursor:grabbing; }
+.ref-viewport.is-paused .ref-track{ animation-play-state:paused; }
+
+@keyframes ref-scroll{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(calc(-50% - .75rem)); }
+}
 
 .ref-item{
   flex:0 0 var(--ref-item-w);
@@ -410,24 +405,24 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   background:var(--white);
   border:1px solid var(--border);
   border-radius:var(--radius);
-  padding:1.6rem 1.3rem;
+  padding:2rem 1.5rem;
   box-shadow:0 6px 18px rgba(15,38,56,.06);
   transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-  user-select:none;
+  font:inherit;
+  cursor:pointer;
 }
-.ref-item:hover{
+.ref-item:hover,
+.ref-item:focus-visible{
   transform:translateY(-4px);
   box-shadow:0 12px 28px rgba(15,38,56,.14);
   border-color:var(--accent);
-  cursor:pointer;
 }
 .ref-item img{
-  height:100px;
+  height:150px;
   width:100%;
   max-width:100%;
   object-fit:contain;
   pointer-events:none;
-  -webkit-user-drag:none;
 }
 .ref-item span{
   font-family:var(--font-mono);
@@ -451,20 +446,74 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 }
 
 @media (max-width: 900px){
-  .ref-item img{ height:80px; }
+  .ref-banner{ --ref-item-w:240px; }
+  .ref-item img{ height:120px; }
 }
 
 @media (max-width: 640px){
-  .ref-track{ padding:0 16px; gap:1rem; }
-  .ref-item{ padding:1.1rem .9rem; }
-  .ref-item img{ height:64px; }
+  .ref-banner{ --ref-item-w:190px; }
+  .ref-viewport{ padding:0 16px; }
+  .ref-track{ gap:1rem; }
+  .ref-item{ padding:1.4rem 1.1rem; }
+  .ref-item img{ height:100px; }
   .ref-item span{ font-size:.78rem; }
   .ref-banner::before,
   .ref-banner::after{ width:36px; }
 }
 
-/* ---------- Referans Lightbox (büyütme) ---------- */
-.ref-lightbox{
+/* =========================================================
+   GALERİ
+   ========================================================= */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  gap:1.5rem;
+  margin-top:2rem;
+}
+.gallery-empty{
+  grid-column:1 / -1;
+  font-family:var(--font-mono);
+  font-size:.85rem;
+  color:var(--text-muted);
+  background:var(--white);
+  border:1px dashed var(--border);
+  border-radius:var(--radius);
+  padding:2.2rem;
+  text-align:center;
+}
+.gallery-empty code{ color:var(--accent); }
+.gallery-item{
+  display:block;
+  width:100%;
+  padding:0;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--white);
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(15,38,56,.06);
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.gallery-item:hover,
+.gallery-item:focus-visible{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(15,38,56,.14);
+  border-color:var(--accent);
+}
+.gallery-item img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+  display:block;
+}
+
+@media (max-width: 640px){
+  .gallery-grid{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:1rem; }
+  .gallery-item img{ height:150px; }
+}
+
+/* ---------- Ortak Lightbox (Referanslar + Galeri büyütme) ---------- */
+.lightbox{
   position:fixed;
   inset:0;
   z-index:1000;
@@ -472,38 +521,44 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   align-items:center;
   justify-content:center;
   padding:6vh 5vw;
-  background:rgba(11,29,42,.86);
+  background:rgba(11,29,42,.9);
   opacity:0;
   visibility:hidden;
   transition:opacity .2s ease, visibility .2s ease;
 }
-.ref-lightbox.is-open{ opacity:1; visibility:visible; }
-.ref-lightbox-box{
+.lightbox.is-open{ opacity:1; visibility:visible; }
+.lightbox-box{
   position:relative;
-  max-width:min(680px, 92vw);
-  max-height:88vh;
+  max-width:min(940px, 94vw);
+  max-height:90vh;
   background:var(--white);
   border-radius:var(--radius);
-  padding:2.6rem 2rem 1.7rem;
+  padding:2.8rem 2.2rem 1.8rem;
   text-align:center;
   transform:scale(.94);
   transition:transform .2s ease;
 }
-.ref-lightbox.is-open .ref-lightbox-box{ transform:scale(1); }
-.ref-lightbox-box img{
+.lightbox.is-open .lightbox-box{ transform:scale(1); }
+.lightbox-box img{
   max-width:100%;
-  max-height:60vh;
+  max-height:76vh;
   margin:0 auto 1rem;
   object-fit:contain;
 }
-.ref-lightbox-caption{
+.lightbox-caption{
   font-family:var(--font-mono);
   font-weight:600;
   font-size:.9rem;
   color:var(--navy-800);
   margin:0;
 }
-.ref-lightbox-close{
+.lightbox-counter{
+  font-family:var(--font-mono);
+  font-size:.75rem;
+  color:var(--text-muted);
+  margin:.3rem 0 0;
+}
+.lightbox-close{
   position:absolute;
   top:10px; right:10px;
   width:34px; height:34px;
@@ -519,7 +574,35 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   justify-content:center;
   transition:border-color .2s ease, color .2s ease;
 }
-.ref-lightbox-close:hover{ border-color:var(--accent); color:var(--accent); }
+.lightbox-close:hover{ border-color:var(--accent); color:var(--accent); }
+.lightbox-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px; height:44px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--white);
+  color:var(--navy-800);
+  font-size:1.5rem;
+  line-height:1;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:border-color .2s ease, color .2s ease, background .2s ease;
+}
+.lightbox-nav:hover{ border-color:var(--accent); color:var(--accent); }
+.lightbox-prev{ left:-6px; }
+.lightbox-next{ right:-6px; }
+
+@media (max-width: 640px){
+  .lightbox{ padding:4vh 4vw; }
+  .lightbox-box{ padding:2.4rem 1rem 1.4rem; }
+  .lightbox-nav{ width:38px; height:38px; font-size:1.25rem; }
+  .lightbox-prev{ left:-2px; }
+  .lightbox-next{ right:-2px; }
+}
 
 /* =========================================================
    HAKKIMIZDA
