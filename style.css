@@ -128,6 +128,9 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   align-items:center;
   justify-content:space-between;
   height:72px;
+  max-width:1320px;
+  margin:0 auto;
+  padding:0 24px;
 }
 .logo{
   display:flex;
@@ -149,7 +152,7 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .main-nav{
   display:flex;
   align-items:center;
-  gap:1.4rem;
+  gap:1.7rem;
 }
 .main-nav a{
   font-size:.92rem;
@@ -958,9 +961,8 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   .hero-visual{ order:-1; }
 }
 
-/* Nav genişliği 9 bağlantı + CTA ile büyüdüğü için menü, orta boy
-   ekranlarda sıkışmadan önce açılır menüye düşer. */
-@media (max-width: 1080px){
+/* Menü, dar ekranlarda sıkışmadan önce açılır menüye düşer. */
+@media (max-width: 960px){
   .nav-toggle-btn{ display:flex; }
   .main-nav{
     position:absolute;
@@ -1010,12 +1012,18 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   box-shadow:0 8px 22px rgba(11,29,42,.35);
   z-index:60;
   transition:transform .2s ease, box-shadow .2s ease;
+  animation:whatsapp-pulse 1.8s ease-in-out infinite;
 }
 .whatsapp-float:hover,
 .whatsapp-float:focus-visible{
+  animation-play-state:paused;
   transform:translateY(-3px) scale(1.05);
   box-shadow:0 12px 28px rgba(11,29,42,.42);
   outline:none;
+}
+@keyframes whatsapp-pulse{
+  0%, 100%{ transform:scale(1); }
+  50%{ transform:scale(1.12); }
 }
 .whatsapp-float svg{
   width:30px;
@@ -1038,6 +1046,7 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 }
 
 @media (prefers-reduced-motion: reduce){
+  .whatsapp-float{ animation:none; }
   .whatsapp-float-ring{ animation:none; display:none; }
 }
 
