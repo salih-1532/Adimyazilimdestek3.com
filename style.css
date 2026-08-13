@@ -409,20 +409,41 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   padding:0 1.4rem;
 }
 .hw-item-media{
-  flex:0 0 160px;
-  width:160px;
-  height:110px;
+  position:relative;
+  flex:0 0 110px;
+  width:110px;
+  height:78px;
   border:1px solid rgba(20,48,74,.10);
   border-radius:4px;
   overflow:hidden;
   background:var(--bg);
   margin-bottom:1.4rem;
+  cursor:zoom-in;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.hw-item-media:hover,
+.hw-item-media:focus-visible{
+  border-color:var(--accent);
+  box-shadow:0 6px 16px rgba(15,38,56,.14);
+  outline:none;
 }
 .hw-item-media img{
   width:100%;
   height:100%;
   object-fit:cover;
+  transition:transform .3s ease;
 }
+.hw-item-media:hover img{ transform:scale(1.06); }
+.hw-item-media::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(15,38,56,.28) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3Cline x1='11' y1='8' x2='11' y2='14'/%3E%3Cline x1='8' y1='11' x2='14' y2='11'/%3E%3C/svg%3E") no-repeat center / 20px 20px;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.hw-item-media:hover::after,
+.hw-item-media:focus-visible::after{ opacity:1; }
 .hw-item-desc{
   flex:1 1 auto;
   font-size:.92rem;
@@ -432,11 +453,11 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 
 @media (max-width: 640px){
   .hw-item-panel-inner{
-    flex-direction:column;
+    flex-direction:row;
     align-items:flex-start;
     gap:.9rem;
   }
-  .hw-item-media{ width:100%; flex-basis:auto; height:140px; }
+  .hw-item-media{ flex:0 0 84px; width:84px; height:64px; margin-bottom:1.1rem; }
   .hw-item-toggle{ padding:1rem 1.1rem; gap:.7rem; }
   .hw-item-title{ font-size:.95rem; }
 }
