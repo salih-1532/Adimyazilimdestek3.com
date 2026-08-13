@@ -914,6 +914,92 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .contact-form .btn{ width:100%; }
 
 /* =========================================================
+   ARIZA KAYDI FORMU
+   ========================================================= */
+.ticket-form{
+  background:var(--navy-950);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius);
+  padding:2rem;
+  max-width:640px;
+  margin:0 auto;
+}
+.ticket-form .form-row label{ color:var(--steel-300); }
+.ticket-form .form-row input,
+.ticket-form .form-row textarea{
+  background:var(--navy-900);
+}
+.ticket-type{
+  display:flex;
+  gap:1rem;
+  margin-bottom:1.3rem;
+  flex-wrap:wrap;
+}
+.ticket-type-option{
+  flex:1 1 160px;
+  position:relative;
+}
+.ticket-type-option input{
+  position:absolute;
+  opacity:0;
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:0;
+  cursor:pointer;
+}
+.ticket-type-option span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5em;
+  padding:.9em 1em;
+  border-radius:var(--radius);
+  border:2px solid rgba(255,255,255,.15);
+  background:var(--navy-900);
+  color:var(--steel-300);
+  font-weight:600;
+  font-size:.92rem;
+  text-align:center;
+  transition:border-color .15s ease, color .15s ease, background .15s ease;
+}
+.ticket-type-option input:checked + span{
+  border-color:var(--accent);
+  color:var(--white);
+  background:rgba(228,87,46,.15);
+}
+.ticket-type-option input:focus-visible + span{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+.ticket-conditional{
+  display:none;
+}
+.ticket-conditional.is-active{
+  display:block;
+}
+.ticket-conditional .form-row-group{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.ticket-conditional .form-row-group .form-row{ flex:1 1 200px; }
+.ticket-eta-note{
+  display:flex;
+  align-items:flex-start;
+  gap:.7em;
+  background:rgba(228,87,46,.12);
+  border:1px solid rgba(228,87,46,.35);
+  border-radius:var(--radius);
+  padding:.9em 1em;
+  margin-top:1.3rem;
+  color:var(--steel-300);
+  font-size:.88rem;
+}
+.ticket-eta-note strong{ color:var(--white); }
+.ticket-form .btn{ width:100%; margin-top:.3rem; }
+
+/* =========================================================
    FOOTER
    ========================================================= */
 .site-footer{ background:var(--navy-950); color:var(--steel-300); }
@@ -1009,10 +1095,10 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 8px 22px rgba(11,29,42,.35);
+  box-shadow:0 8px 22px rgba(11,29,42,.35), 0 0 0 0 rgba(37,211,102,.6);
   z-index:60;
   transition:transform .2s ease, box-shadow .2s ease;
-  animation:whatsapp-pulse 1.8s ease-in-out infinite;
+  animation:whatsapp-attention 3.2s ease-in-out infinite, whatsapp-glow 3.2s ease-in-out infinite;
 }
 .whatsapp-float:hover,
 .whatsapp-float:focus-visible{
@@ -1021,9 +1107,19 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   box-shadow:0 12px 28px rgba(11,29,42,.42);
   outline:none;
 }
-@keyframes whatsapp-pulse{
-  0%, 100%{ transform:scale(1); }
-  50%{ transform:scale(1.12); }
+@keyframes whatsapp-attention{
+  0%, 52%{ transform:translateY(0) scale(1) rotate(0deg); }
+  58%{ transform:translateY(-9px) scale(1.18) rotate(-14deg); }
+  64%{ transform:translateY(0) scale(1.05) rotate(10deg); }
+  70%{ transform:translateY(-7px) scale(1.16) rotate(-10deg); }
+  76%{ transform:translateY(0) scale(1.08) rotate(7deg); }
+  82%{ transform:translateY(-3px) scale(1.03) rotate(-3deg); }
+  88%, 100%{ transform:translateY(0) scale(1) rotate(0deg); }
+}
+@keyframes whatsapp-glow{
+  0%, 52%{ box-shadow:0 8px 22px rgba(11,29,42,.35), 0 0 0 0 rgba(37,211,102,.6); }
+  74%{ box-shadow:0 8px 22px rgba(11,29,42,.35), 0 0 0 16px rgba(37,211,102,0); }
+  100%{ box-shadow:0 8px 22px rgba(11,29,42,.35), 0 0 0 0 rgba(37,211,102,0); }
 }
 .whatsapp-float svg{
   width:30px;
@@ -1033,16 +1129,16 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 }
 .whatsapp-float-ring{
   position:absolute;
-  inset:0;
+  inset:-4px;
   border-radius:50%;
   background:#25D366;
-  opacity:.55;
-  animation:whatsapp-ping 2.4s cubic-bezier(0,0,.2,1) infinite;
+  opacity:.6;
+  animation:whatsapp-ping 1.9s cubic-bezier(0,0,.2,1) infinite;
 }
 @keyframes whatsapp-ping{
-  0%{ transform:scale(1); opacity:.55; }
-  70%{ transform:scale(1.9); opacity:0; }
-  100%{ transform:scale(1.9); opacity:0; }
+  0%{ transform:scale(1); opacity:.6; }
+  70%{ transform:scale(2.15); opacity:0; }
+  100%{ transform:scale(2.15); opacity:0; }
 }
 
 @media (prefers-reduced-motion: reduce){
