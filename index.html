@@ -82,6 +82,7 @@
       <a href="#donanimlar">Donanımlar</a>
       <a href="#hizmetler">Hizmetler</a>
       <a href="#hakkimizda">Hakkımızda</a>
+      <a href="#ariza-kaydi">Arıza Kaydı</a>
       <a href="#iletisim">İletişim</a>
       <a href="#iletisim" class="btn btn-accent nav-cta">Teklif Al</a>
     </nav>
@@ -846,6 +847,155 @@
     </div>
   </section>
 
+  <!-- ============ ARIZA KAYDI ============ -->
+  <section class="section" id="ariza-kaydi">
+    <div class="container">
+      <p class="eyebrow">Teknik Destek</p>
+      <h2>Arıza kaydı oluşturun</h2>
+      <p class="section-lead">
+        Cihaz veya yazılım kaynaklı bir arızayla mı karşılaştınız? Aşağıdaki formu doldurun,
+        talebiniz ekibimize anında e-posta ile iletilsin; en kısa sürede size dönüş yapalım.
+      </p>
+
+      <!-- NOT: Bu form da Teklif/İletişim formuyla aynı Web3Forms access_key'ini kullanır,
+           bu nedenle ekstra bir aktivasyon gerekmez. Bildirimler aynı adreslere gidecektir.
+           Farklı bir e-posta adresine gitmesini isterseniz "access_key" değerini değiştirin. -->
+      <form class="ticket-form" id="ticketForm">
+        <input type="hidden" name="access_key" value="c9abb788-2d8f-4067-a03e-6b783b84fe2f">
+        <input type="hidden" name="subject" value="Web sitesinden yeni ARIZA KAYDI">
+        <input type="hidden" name="from_name" value="Adım Yazılım - Arıza Kaydı Formu">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div class="form-row">
+          <label>Arıza Türü</label>
+          <div class="ticket-type">
+            <label class="ticket-type-option">
+              <input type="radio" name="Arıza Türü" value="Cihaz" id="turCihaz" checked>
+              <span>Cihaz</span>
+            </label>
+            <label class="ticket-type-option">
+              <input type="radio" name="Arıza Türü" value="Yazılım" id="turYazilim">
+              <span>Yazılım</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="ticket-conditional is-active" id="alanCihaz">
+          <div class="form-row-group">
+            <div class="form-row">
+              <label for="cihazModel">Cihaz Modeli</label>
+              <input type="text" id="cihazModel" name="Cihaz Modeli" placeholder="ör. NCR RealPOS 30">
+            </div>
+            <div class="form-row">
+              <label for="cihazSeriNo">Seri No (SN)</label>
+              <input type="text" id="cihazSeriNo" name="Seri No (SN)" placeholder="Cihaz üzerindeki seri numara">
+            </div>
+          </div>
+        </div>
+
+        <div class="ticket-conditional" id="alanYazilim">
+          <div class="form-row">
+            <label for="yazilimAdi">Yazılım Adı</label>
+            <input type="text" id="yazilimAdi" name="Yazılım Adı" placeholder="ör. Mikro Yazılım, Fastsell">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="arizaDetay">Arıza Detayı</label>
+          <textarea id="arizaDetay" name="Arıza Detayı" rows="4" required placeholder="Yaşadığınız sorunu kısaca açıklayın"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="arizaAcan">Arızayı Açan Kişi / Firma</label>
+          <input type="text" id="arizaAcan" name="Arızayı Açan Kişi/Firma" required>
+        </div>
+        <div class="form-row">
+          <label for="arizaIletisim">İletişim Bilgisi (Telefon / E-posta)</label>
+          <input type="text" id="arizaIletisim" name="İletişim Bilgisi" required>
+        </div>
+
+        <button type="submit" class="btn btn-accent">Arıza Kaydı Oluştur</button>
+        <p class="form-status" id="ticketStatus" role="status" aria-live="polite"></p>
+
+        <div class="ticket-eta-note">
+          <span aria-hidden="true">⏱</span>
+          <span><strong>Tahmini çözüm süresi:</strong> Kaydınız oluşturulduktan sonra ekibimiz ortalama 6 saat içinde size dönüş yaparak arızanızla ilgilenecektir.</span>
+        </div>
+      </form>
+
+      <script>
+        (function () {
+          var form = document.getElementById('ticketForm');
+          var status = document.getElementById('ticketStatus');
+          var turCihaz = document.getElementById('turCihaz');
+          var turYazilim = document.getElementById('turYazilim');
+          var alanCihaz = document.getElementById('alanCihaz');
+          var alanYazilim = document.getElementById('alanYazilim');
+          var cihazModel = document.getElementById('cihazModel');
+          var cihazSeriNo = document.getElementById('cihazSeriNo');
+          var yazilimAdi = document.getElementById('yazilimAdi');
+
+          function updateType() {
+            if (turCihaz.checked) {
+              alanCihaz.classList.add('is-active');
+              alanYazilim.classList.remove('is-active');
+              cihazModel.required = true;
+              cihazSeriNo.required = true;
+              yazilimAdi.required = false;
+              yazilimAdi.value = '';
+            } else {
+              alanYazilim.classList.add('is-active');
+              alanCihaz.classList.remove('is-active');
+              yazilimAdi.required = true;
+              cihazModel.required = false;
+              cihazSeriNo.required = false;
+              cihazModel.value = '';
+              cihazSeriNo.value = '';
+            }
+          }
+          turCihaz.addEventListener('change', updateType);
+          turYazilim.addEventListener('change', updateType);
+          updateType();
+
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var btn = form.querySelector('button[type="submit"]');
+            var originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Gönderiliyor…';
+            status.textContent = '';
+            status.className = 'form-status';
+
+            fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify(Object.fromEntries(new FormData(form)))
+            })
+              .then(function (res) { return res.json(); })
+              .then(function (data) {
+                if (data.success) {
+                  status.textContent = 'Arıza kaydınız oluşturuldu, teşekkürler! Tahmini çözüm süresi 6 saattir, en kısa sürede size dönüş yapacağız.';
+                  status.classList.add('form-status-ok');
+                  form.reset();
+                  updateType();
+                } else {
+                  status.textContent = 'Bir hata oluştu, lütfen tekrar deneyin veya bizi telefonla arayın.';
+                  status.classList.add('form-status-error');
+                }
+              })
+              .catch(function () {
+                status.textContent = 'Bağlantı hatası. Lütfen tekrar deneyin.';
+                status.classList.add('form-status-error');
+              })
+              .finally(function () {
+                btn.disabled = false;
+                btn.textContent = originalText;
+              });
+          });
+        })();
+      </script>
+    </div>
+  </section>
+
   <!-- ============ İLETİŞİM ============ -->
   <section class="section section-dark" id="iletisim">
     <div class="container contact-inner">
@@ -979,6 +1129,7 @@
       <a href="#galeri">Galeri</a>
       <a href="#hizmetler">Hizmetler</a>
       <a href="#hakkimizda">Hakkımızda</a>
+      <a href="#ariza-kaydi">Arıza Kaydı</a>
       <a href="#iletisim">İletişim</a>
     </nav>
 
