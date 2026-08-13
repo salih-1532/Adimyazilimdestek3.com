@@ -927,3 +927,63 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   .section{ padding:3.5rem 0; }
   .hero-inner{ padding-bottom:3rem; }
 }
+
+/* =========================================================
+   WHATSAPP YÜZEN BUTON
+   ========================================================= */
+.whatsapp-float{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  bottom:calc(20px + env(safe-area-inset-bottom));
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#25D366;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 22px rgba(11,29,42,.35);
+  z-index:60;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.whatsapp-float:hover,
+.whatsapp-float:focus-visible{
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 12px 28px rgba(11,29,42,.42);
+  outline:none;
+}
+.whatsapp-float svg{
+  width:30px;
+  height:30px;
+  position:relative;
+  z-index:1;
+}
+.whatsapp-float-ring{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:#25D366;
+  opacity:.55;
+  animation:whatsapp-ping 2.4s cubic-bezier(0,0,.2,1) infinite;
+}
+@keyframes whatsapp-ping{
+  0%{ transform:scale(1); opacity:.55; }
+  70%{ transform:scale(1.9); opacity:0; }
+  100%{ transform:scale(1.9); opacity:0; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .whatsapp-float-ring{ animation:none; display:none; }
+}
+
+@media (max-width: 640px){
+  .whatsapp-float{
+    right:14px;
+    bottom:14px;
+    bottom:calc(14px + env(safe-area-inset-bottom));
+    width:52px;
+    height:52px;
+  }
+  .whatsapp-float svg{ width:27px; height:27px; }
+}
