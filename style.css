@@ -321,6 +321,126 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .brand-card h3{ margin-bottom:.4em; }
 .brand-card p{ font-size:.92rem; margin:0; }
 
+/* =========================================================
+   DONANIMLAR (AÇILIR LİSTE)
+   ========================================================= */
+.hw-accordion{
+  margin-top:2.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:.9rem;
+}
+
+.hw-item{
+  background:var(--white);
+  border:1px solid rgba(20,48,74,.12);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.hw-item.is-open{
+  border-color:var(--accent);
+  box-shadow:0 10px 26px rgba(15,38,56,.09);
+}
+
+.hw-item-head{ margin:0; }
+
+.hw-item-toggle{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:1.1rem 1.4rem;
+  background:none;
+  border:0;
+  text-align:left;
+  font:inherit;
+  cursor:pointer;
+  color:var(--text);
+}
+.hw-item-toggle:hover .hw-item-title{ color:var(--accent); }
+.hw-item-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+
+.hw-item-index{
+  flex:0 0 auto;
+  font-family:var(--font-mono);
+  font-size:.78rem;
+  font-weight:600;
+  color:var(--accent);
+  border:1px solid rgba(228,87,46,.35);
+  border-radius:4px;
+  padding:.25rem .45rem;
+  letter-spacing:.03em;
+}
+
+.hw-item-title{
+  flex:1 1 auto;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:1.02rem;
+  color:var(--navy-950);
+  transition:color .2s ease;
+}
+
+.hw-item-chevron{
+  flex:0 0 auto;
+  font-size:1.3rem;
+  line-height:1;
+  color:var(--steel-500);
+  transition:transform .25s ease, color .2s ease;
+}
+.hw-item.is-open .hw-item-chevron{
+  transform:rotate(90deg);
+  color:var(--accent);
+}
+
+.hw-item-panel{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows .32s ease;
+}
+.hw-item.is-open .hw-item-panel{ grid-template-rows:1fr; }
+
+.hw-item-panel-inner{
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  gap:1.6rem;
+  padding:0 1.4rem;
+}
+.hw-item-media{
+  flex:0 0 160px;
+  width:160px;
+  height:110px;
+  border:1px solid rgba(20,48,74,.10);
+  border-radius:4px;
+  overflow:hidden;
+  background:var(--bg);
+  margin-bottom:1.4rem;
+}
+.hw-item-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.hw-item-desc{
+  flex:1 1 auto;
+  font-size:.92rem;
+  color:var(--text-muted);
+  margin:0 0 1.4rem;
+}
+
+@media (max-width: 640px){
+  .hw-item-panel-inner{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.9rem;
+  }
+  .hw-item-media{ width:100%; flex-basis:auto; height:140px; }
+  .hw-item-toggle{ padding:1rem 1.1rem; gap:.7rem; }
+  .hw-item-title{ font-size:.95rem; }
+}
+
 /* ---------- Hizmet kartları ---------- */
 .service-grid{
   display:grid;
@@ -355,45 +475,38 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .ref-banner{
   --ref-item-w:300px;
   position:relative;
+  display:flex;
+  align-items:center;
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
   background:var(--white);
   padding:2.6rem 0;
 }
 
-/* Kenarlarda beyazdan şeffafa geçiş: kayma hissini güçlendirir */
-.ref-banner::before,
-.ref-banner::after{
-  content:"";
-  position:absolute;
-  top:0; bottom:0;
-  width:64px;
-  z-index:2;
-  pointer-events:none;
-}
-.ref-banner::before{ left:0; background:linear-gradient(90deg, var(--white), transparent); }
-.ref-banner::after{ right:0; background:linear-gradient(270deg, var(--white), transparent); }
-
 .ref-viewport{
-  overflow:hidden;
-  padding:0 24px;
+  position:relative;
+  flex:1 1 auto;
+  min-width:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-behavior:smooth;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  padding:.4rem 24px;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
 }
+.ref-viewport::-webkit-scrollbar{ display:none; }
 
 .ref-track{
   display:flex;
   align-items:stretch;
   gap:1.5rem;
   width:max-content;
-  animation:ref-scroll 34s linear infinite;
-}
-.ref-viewport.is-paused .ref-track{ animation-play-state:paused; }
-
-@keyframes ref-scroll{
-  from{ transform:translateX(0); }
-  to{ transform:translateX(calc(-50% - .75rem)); }
 }
 
 .ref-item{
+  scroll-snap-align:start;
   flex:0 0 var(--ref-item-w);
   width:var(--ref-item-w);
   display:flex;
@@ -403,10 +516,10 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   gap:1rem;
   text-align:center;
   background:var(--white);
-  border:1px solid var(--border);
+  border:1px solid rgba(20,48,74,.12);
   border-radius:var(--radius);
   padding:2rem 1.5rem;
-  box-shadow:0 6px 18px rgba(15,38,56,.06);
+  box-shadow:0 2px 10px rgba(15,38,56,.04);
   transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
   font:inherit;
   cursor:pointer;
@@ -416,6 +529,7 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   transform:translateY(-4px);
   box-shadow:0 12px 28px rgba(15,38,56,.14);
   border-color:var(--accent);
+  outline:none;
 }
 .ref-item img{
   height:150px;
@@ -445,20 +559,50 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   letter-spacing:.03em;
 }
 
+/* Sağ / sol gezinme okları */
+.ref-arrow{
+  flex:0 0 auto;
+  width:44px;
+  height:44px;
+  margin:0 14px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--white);
+  color:var(--navy-800);
+  font-size:1.4rem;
+  line-height:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:border-color .2s ease, color .2s ease, transform .15s ease, opacity .2s ease;
+  z-index:3;
+}
+.ref-arrow:hover:not(:disabled),
+.ref-arrow:focus-visible:not(:disabled){
+  border-color:var(--accent);
+  color:var(--accent);
+  transform:translateY(-2px);
+  outline:none;
+}
+.ref-arrow:disabled{
+  opacity:.35;
+  cursor:default;
+}
+
 @media (max-width: 900px){
   .ref-banner{ --ref-item-w:240px; }
   .ref-item img{ height:120px; }
 }
 
 @media (max-width: 640px){
-  .ref-banner{ --ref-item-w:190px; }
-  .ref-viewport{ padding:0 16px; }
+  .ref-banner{ --ref-item-w:190px; padding:2rem 0; }
+  .ref-viewport{ padding:.4rem 6px; }
   .ref-track{ gap:1rem; }
   .ref-item{ padding:1.4rem 1.1rem; }
   .ref-item img{ height:100px; }
   .ref-item span{ font-size:.78rem; }
-  .ref-banner::before,
-  .ref-banner::after{ width:36px; }
+  .ref-arrow{ width:34px; height:34px; font-size:1.1rem; margin:0 4px; }
 }
 
 /* =========================================================
