@@ -595,6 +595,23 @@
             }
           });
         });
+
+        /* Görsele tıklayınca tam ekran lightbox açılır; ok tuşlarıyla diğer donanım görselleri arasında gezinilebilir. */
+        var hwList = hwItems.map(function (item) {
+          var img = item.querySelector('.hw-item-media img');
+          var title = item.querySelector('.hw-item-title');
+          return { src: img.src, caption: title ? title.textContent.trim() : '' };
+        });
+        hwItems.forEach(function (item, i) {
+          var media = item.querySelector('.hw-item-media');
+          media.setAttribute('role', 'button');
+          media.setAttribute('tabindex', '0');
+          media.setAttribute('aria-label', 'Görseli büyüt: ' + hwList[i].caption);
+          media.addEventListener('click', function () { openLightbox(hwList, i); });
+          media.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(hwList, i); }
+          });
+        });
       }
     })();
   </script>
