@@ -1103,6 +1103,66 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 /* =========================================================
    RESPONSIVE
    ========================================================= */
+
+/* ---------- Masaüstü: bölümler tek ekrana sığacak şekilde
+   sıkılaştırılmış boşluk/ölçek düzeni (hero, sektörler vb.) ---------- */
+@media (min-width: 981px){
+  .header-inner{ height:64px; }
+  .hero{
+    min-height:calc(100vh - 64px);
+    display:flex;
+    align-items:center;
+  }
+  .hero-inner{
+    padding:2.4rem 24px;
+    gap:2.6rem;
+  }
+  .hero h1{ font-size:clamp(1.9rem, 3.4vw, 2.7rem); margin-bottom:.45em; }
+  .hero-lead{ font-size:.98rem; margin-bottom:.9em; }
+  .hero-actions{ margin:1.2rem 0 1.5rem; }
+  .hero-media{ aspect-ratio:16/9; }
+  .hero-stats{ margin-top:1.1rem; gap:.8rem; }
+  .hero-stat-card{ padding:1rem .9rem; }
+  .hero-stat-num{ font-size:1.75rem; }
+
+  .section{ padding:3.4rem 0; }
+  h2{ font-size:clamp(1.5rem, 2.4vw, 2rem); margin-bottom:.4em; }
+  .section-lead{ margin-bottom:0; }
+  .eyebrow{ margin-bottom:.7em; }
+
+  .sector-grid,
+  .brand-grid,
+  .service-grid{ margin-top:1.7rem; gap:1.1rem; }
+  .sector-card,
+  .brand-card{ padding:1.4rem 1.2rem; }
+  .service-card{ padding:1.4rem 1.2rem; }
+  .sector-icon,
+  .service-icon{ width:40px; height:40px; margin-bottom:.7rem; }
+  .sector-icon svg,
+  .service-icon svg{ width:23px; height:23px; }
+  .brand-logo{ height:52px; margin-bottom:.7rem; }
+
+  .hw-accordion{ margin-top:1.7rem; gap:.6rem; }
+  .hw-item-toggle{ padding:.9rem 1.3rem; }
+  .hw-item-panel-inner{ padding:0 1.3rem; }
+  .hw-item-media{ margin-bottom:1.1rem; }
+  .hw-item-desc{ margin-bottom:1.1rem; }
+
+  .references{ padding:3rem 0 3.3rem; }
+  .ref-banner{ padding:1.8rem 0; }
+  .ref-item{ padding:1.5rem 1.2rem; }
+  .ref-item img{ height:110px; }
+
+  .gallery-grid{ margin-top:1.5rem; gap:1.1rem; }
+  .gallery-item img{ height:180px; }
+
+  .about-inner{ gap:2.4rem; }
+  .contact-inner{ gap:2.4rem; }
+  .contact-form,
+  .ticket-form{ padding:1.7rem; }
+  .form-row{ margin-bottom:.85rem; }
+}
+
 @media (max-width: 1180px){
   .brand-grid{ grid-template-columns:repeat(4, 1fr); }
 }
