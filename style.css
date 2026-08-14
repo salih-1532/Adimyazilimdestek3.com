@@ -335,7 +335,7 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 /* ---------- Marka / Ürün kartları ---------- */
 .brand-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns:repeat(5, 1fr);
   gap:1.5rem;
   margin-top:2.5rem;
 }
@@ -381,7 +381,7 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 /* ---------- Sektör kartları ---------- */
 .sector-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns:repeat(3, 1fr);
   gap:1.5rem;
   margin-top:2.5rem;
 }
@@ -1103,6 +1103,10 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 /* =========================================================
    RESPONSIVE
    ========================================================= */
+@media (max-width: 1180px){
+  .brand-grid{ grid-template-columns:repeat(4, 1fr); }
+}
+
 @media (max-width: 980px){
   .brand-grid,
   .service-grid,
