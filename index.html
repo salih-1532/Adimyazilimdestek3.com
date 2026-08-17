@@ -83,7 +83,12 @@
       <a href="#hizmetler">Hizmetler</a>
       <a href="#hakkimizda">Hakkımızda</a>
       <a href="#iletisim">İletişim</a>
-      <a href="#ariza-kaydi"class="btn btn-accent nav-cta ">Arıza Kaydı</a>
+      <a href="#ariza-kaydi" class="btn nav-cta nav-cta-ticket">
+        <svg class="nav-cta-ticket-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M14.7 6.3a3.5 3.5 0 0 1-4.6 4.6L5 16l3 3 5.1-5.1a3.5 3.5 0 0 1 4.6-4.6L21 12.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Arıza Kaydı
+      </a>
       <a href="#iletisim" class="btn btn-accent nav-cta">Teklif Al</a>
     </nav>
   </div>
@@ -109,7 +114,6 @@
         </div>
         <ul class="trust-row">
           <li>NCR İç Anadolu &amp; Yetkili Mikro Bayisi</li>
-          <li>Toptan ve perakende sektörüne tam destek</li>
           <li>Ankara merkezli hızlı servis</li>
         </ul>
       </div>
@@ -123,15 +127,15 @@
 
         <div class="hero-stats">
           <div class="hero-stat-card">
-            <div class="hero-stat-num">500+</div>
+            <div class="hero-stat-num" data-count-to="500" data-suffix="+">0+</div>
             <div class="hero-stat-label">Mutlu Müşteri</div>
           </div>
           <div class="hero-stat-card">
-            <div class="hero-stat-num">10+</div>
+            <div class="hero-stat-num" data-count-to="10" data-suffix="+">0+</div>
             <div class="hero-stat-label">Yıl Deneyim</div>
           </div>
           <div class="hero-stat-card">
-            <div class="hero-stat-num">13+</div>
+            <div class="hero-stat-num" data-count-to="13" data-suffix="+">0+</div>
             <div class="hero-stat-label">Yetkili Yazılım</div>
           </div>
           <div class="hero-stat-card">
@@ -143,6 +147,50 @@
     </div>
     <div class="barcode-strip" aria-hidden="true"></div>
   </section>
+
+  <!-- ============ HERO İSTATİSTİK SAYAÇ ANİMASYONU ============ -->
+  <script>
+    (function () {
+      var statsWrap = document.querySelector('.hero-stats');
+      var statEls = document.querySelectorAll('.hero-stat-num[data-count-to]');
+      if (!statsWrap || !statEls.length) return;
+
+      var played = false;
+
+      function animateCount(el) {
+        var target = parseInt(el.getAttribute('data-count-to'), 10);
+        var suffix = el.getAttribute('data-suffix') || '';
+        var duration = 1800; /* tüm sayaçlar aynı sürede biter; sayı büyüdükçe artış hızı da kendiliğinden artar */
+        var start = null;
+
+        function step(ts) {
+          if (start === null) start = ts;
+          var progress = Math.min((ts - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3); /* ease-out: hızlı başlar, yavaşlayarak hedefte durur */
+          var value = Math.floor(eased * target);
+          el.textContent = value + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = target + suffix;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !played) {
+            played = true;
+            statEls.forEach(animateCount);
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+
+      io.observe(statsWrap);
+    })();
+  </script>
 
   <!-- ============ SEKTÖRLER ============ -->
   <section class="section" id="sektorler">
@@ -398,7 +446,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-1" id="hw-toggle-1">
-              <span class="hw-item-index">01</span>
               <span class="hw-item-title">Server Cihazlar</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -417,7 +464,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-2" id="hw-toggle-2">
-              <span class="hw-item-index">02</span>
               <span class="hw-item-title">POS PC</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -435,7 +481,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-3" id="hw-toggle-3">
-              <span class="hw-item-index">03</span>
               <span class="hw-item-title">Barkod Okuyucu</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -453,7 +498,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-4" id="hw-toggle-4">
-              <span class="hw-item-index">04</span>
               <span class="hw-item-title">Barkod Yazıcı</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -471,7 +515,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-5" id="hw-toggle-5">
-              <span class="hw-item-index">05</span>
               <span class="hw-item-title">Fiş Yazıcı</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -489,7 +532,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-6" id="hw-toggle-6">
-              <span class="hw-item-index">06</span>
               <span class="hw-item-title">A4 Yazıcı</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -507,7 +549,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-7" id="hw-toggle-7">
-              <span class="hw-item-index">07</span>
               <span class="hw-item-title">Çelik Para Çekmecesi</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -525,7 +566,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-8" id="hw-toggle-8">
-              <span class="hw-item-index">08</span>
               <span class="hw-item-title">Pole Demiri(Kasiyer Standı)</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -543,7 +583,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-9" id="hw-toggle-9">
-              <span class="hw-item-index">09</span>
               <span class="hw-item-title">POS / Ödeme Cihazları</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -561,7 +600,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-10" id="hw-toggle-10">
-              <span class="hw-item-index">10</span>
               <span class="hw-item-title">POS / Etiket Ruloları</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -579,7 +617,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-11" id="hw-toggle-11">
-              <span class="hw-item-index">11</span>
               <span class="hw-item-title">El Terminali (PDA)</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
@@ -597,7 +634,6 @@
         <div class="hw-item">
           <h3 class="hw-item-head">
             <button type="button" class="hw-item-toggle" aria-expanded="false" aria-controls="hw-panel-12" id="hw-toggle-12">
-              <span class="hw-item-index">12</span>
               <span class="hw-item-title">Teraziler</span>
               <span class="hw-item-chevron" aria-hidden="true">›</span>
             </button>
