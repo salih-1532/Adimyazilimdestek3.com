@@ -31,16 +31,27 @@
   --radius:14px;
   --radius-lg:20px;
   --container:1180px;
+
+  /* Sabit header'ın gerçek yüksekliği + biraz nefes payı.
+     Varsayılan (mobil/980px altı) header-inner yüksekliği 72px'tir. */
+  --header-offset:88px;
+}
+
+@media (min-width:981px){
+  :root{
+    /* 981px ve üzeri: header-inner 64px'e düşüyor, offset'i buna göre küçültüyoruz. */
+    --header-offset:80px;
+  }
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; scroll-padding-top:var(--header-offset, 96px); }
+html{ scroll-behavior:smooth; scroll-padding-top:var(--header-offset); }
 /* Sabit (sticky) header, hedef bölümün başlığını kapatmasın diye her bölüme
    ayrıca scroll-margin-top veriyoruz. Bu, scroll-padding-top'a göre tarayıcılar
    arasında çok daha güvenilir çalışır ve navigasyondan tıklanan bölüm başlığının
    her zaman header'ın hemen altında, sayfanın üstünde görünmesini sağlar. */
 main section[id],
-#top{ scroll-margin-top:var(--header-offset, 50px); }
+#top{ scroll-margin-top:var(--header-offset); }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior:auto; }
   *,*::before,*::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
