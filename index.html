@@ -115,6 +115,17 @@
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(updateHeaderOffset);
     }
+
+    /* Mobil menüde bir başlığa tıklanınca menüyü otomatik kapat */
+    var navToggle = document.getElementById('nav-toggle');
+    var navLinks = document.querySelectorAll('.main-nav a');
+    if (navToggle && navLinks.length) {
+      navLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          navToggle.checked = false;
+        });
+      });
+    }
   })();
 </script>
 
@@ -741,14 +752,19 @@
     <div class="container">
       <p class="eyebrow">Galeri</p>
       <h2>Çalışmalarımızdan kareler</h2>
-<p class="section-lead">
-        <!-- Yeni görsel eklemek için <code>images/galeri/</code> klasörüne <code>gorsel1.jpg</code>,
-        <code>gorsel2.jpg</code>, <code>gorsel3.jpg</code>… şeklinde sırayla adlandırılmış dosyalar
-        yükleyin. Galeri, sayfa kodu değiştirilmeden otomatik olarak büyür; sınırsız görsel ekleyebilirsiniz.-->
-      </p>
+      <p class="section-lead">Kurulumunu tamamladığımız işletmelerden görseller. Bir müşteriye ait kareleri görmek için aşağıdan seçin.</p>
+
+      <!-- DÜZENLEME NOTU: Yeni müşteri eklemek için bu dosyanın alt kısmındaki
+           galeri kod bloğunda "galleryCustomers" listesine { slug:'...', name:'...' }
+           şeklinde bir satır ekleyin, ardından images/galeri/[slug]/ klasörüne
+           1.jpg, 2.jpg, 3.jpg… şeklinde sırayla adlandırılmış görselleri yükleyin.
+           Galeri filtreleri ve kartlar otomatik oluşur. -->
+      <div class="gallery-filters" id="galleryFilters" role="tablist" aria-label="Müşteriye göre filtrele">
+        <button type="button" class="gallery-filter is-active" data-filter="all">Tümü</button>
+      </div>
 
       <div class="gallery-grid" id="galleryGrid">
-       <p class="gallery-empty" id="galleryEmpty"><!--Henüz görsel eklenmedi. <code>images/galeri/gorsel1.jpg</code> ile başlayın.--></p>
+       <p class="gallery-empty" id="galleryEmpty"><!--Henüz görsel eklenmedi. images/galeri/<musteri-slug>/1.jpg ile başlayın.--></p>
       </div>
     </div>
   </section>
@@ -868,9 +884,19 @@
         updateArrows();
       }
 
-      /* ---------- Galeri: gorsel1, gorsel2 ... otomatik yükleme ---------- */
+      /* ---------- Galeri: müşteri bazlı, her müşteri klasöründe 1, 2, 3 ... otomatik yükleme ----------
+         Yeni müşteri eklemek için aşağıdaki listeye bir satır ekleyin ve
+         images/galeri/<slug>/ klasörüne 1.jpg, 2.jpg, 3.jpg… şeklinde
+         sırayla adlandırılmış görselleri yükleyin. */
+      var galleryCustomers = [
+        { slug: 'firsat-home', name: 'Fırsat Home' },
+        { slug: 'islek-tavukculuk', name: 'İşlek Tavukçuluk' }
+        // DÜZENLEME NOTU: örnek → { slug: 'ulusoylar-market', name: 'Ulusoylar Market' }
+      ];
+
       var galleryGrid = document.getElementById('galleryGrid');
       var galleryEmpty = document.getElementById('galleryEmpty');
+      var galleryFilters = document.getElementById('galleryFilters');
 
       function tryLoadImage(src) {
         return new Promise(function (resolve) {
@@ -881,47 +907,87 @@
         });
       }
 
-      function findGalleryImage(i) {
+      function findCustomerImage(slug, i) {
         var exts = ['jpg', 'jpeg', 'png', 'webp'];
         var attempt = 0;
         function tryNext() {
           if (attempt >= exts.length) return Promise.resolve(null);
-          var src = 'images/galeri/gorsel' + i + '.' + exts[attempt];
+          var src = 'images/galeri/' + slug + '/' + i + '.' + exts[attempt];
           attempt++;
           return tryLoadImage(src).then(function (ok) { return ok || tryNext(); });
         }
         return tryNext();
       }
 
-      function loadGallery() {
+      function loadCustomerImages(customer) {
         var found = [];
         var i = 1;
         function step() {
-          return findGalleryImage(i).then(function (src) {
+          return findCustomerImage(customer.slug, i).then(function (src) {
             if (!src) return;
-            found.push({ src: src, caption: 'Görsel ' + i });
+            found.push({ src: src, caption: customer.name, customerSlug: customer.slug, customerName: customer.name });
             i++;
-            if (i > 500) return; // güvenlik sınırı
+            if (i > 200) return; // güvenlik sınırı
             return step();
           });
         }
-        step().then(function () {
+        return step().then(function () { return found; });
+      }
+
+      function loadGallery() {
+        Promise.all(galleryCustomers.map(loadCustomerImages)).then(function (groups) {
+          var found = [].concat.apply([], groups);
+          var activeCustomers = galleryCustomers.filter(function (c, idx) { return groups[idx].length > 0; });
+
           if (!found.length) return; // boş mesaj kalır
           galleryEmpty.remove();
+
+          /* Filtre düğmeleri (müşteri isimleri) */
+          activeCustomers.forEach(function (customer) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'gallery-filter';
+            btn.setAttribute('data-filter', customer.slug);
+            btn.textContent = customer.name;
+            galleryFilters.appendChild(btn);
+          });
+
+          /* Galeri kartları */
           found.forEach(function (item, idx) {
             var fig = document.createElement('button');
             fig.type = 'button';
             fig.className = 'gallery-item';
-            fig.setAttribute('aria-label', item.caption + ' - büyüt');
+            fig.setAttribute('data-customer', item.customerSlug);
+            fig.setAttribute('aria-label', item.customerName + ' kurulumundan görsel - büyüt');
             var img = document.createElement('img');
             img.src = item.src;
-            img.alt = item.caption;
+            img.alt = item.customerName + ' kurulumundan görsel';
             img.loading = 'lazy';
             fig.appendChild(img);
+            var badge = document.createElement('span');
+            badge.className = 'gallery-item-badge';
+            badge.textContent = item.customerName;
+            fig.appendChild(badge);
             fig.addEventListener('click', function () { openLightbox(found, idx); });
             galleryGrid.appendChild(fig);
           });
+
           if (window.revealElements) { window.revealElements(galleryGrid.querySelectorAll('.gallery-item')); }
+
+          /* Filtreleme davranışı */
+          var filterButtons = Array.prototype.slice.call(galleryFilters.querySelectorAll('.gallery-filter'));
+          var galleryItems = Array.prototype.slice.call(galleryGrid.querySelectorAll('.gallery-item'));
+          filterButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              filterButtons.forEach(function (b) { b.classList.remove('is-active'); });
+              btn.classList.add('is-active');
+              var filter = btn.getAttribute('data-filter');
+              galleryItems.forEach(function (item) {
+                var show = filter === 'all' || item.getAttribute('data-customer') === filter;
+                item.classList.toggle('is-hidden', !show);
+              });
+            });
+          });
         });
       }
       loadGallery();
