@@ -34,7 +34,7 @@
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; scroll-padding-top:92px; }
+html{ scroll-behavior:smooth; scroll-padding-top:var(--header-offset, 96px); }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior:auto; }
   *,*::before,*::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
@@ -168,7 +168,7 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .main-nav{
   display:flex;
   align-items:center;
-  gap:1.7rem;
+  gap:1.4rem;
 }
 .main-nav a{
   font-size:.92rem;
@@ -184,23 +184,26 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   display:inline-flex;
   align-items:center;
   gap:.5em;
-  padding:.75em 1.3em;
-  background:rgba(245,158,11,.08);
-  border:1.5px solid rgba(245,158,11,.5);
-  color:var(--accent);
+  padding:.65em 1.2em;
+  border:1.5px solid var(--accent);
+  border-radius:10px;
+  background:rgba(245,158,11,.1);
+  white-space:nowrap;
+  flex:0 0 auto;
   box-shadow:none;
 }
+.nav-cta.nav-cta-ticket{ color:var(--accent); }
 .nav-cta-ticket-icon{
-  width:15px;
-  height:15px;
+  width:16px;
+  height:16px;
   flex:none;
 }
 .nav-cta-ticket:hover{
-  background:rgba(245,158,11,.16);
+  background:var(--accent);
   border-color:var(--accent);
-  color:var(--accent);
-  box-shadow:0 6px 18px rgba(245,158,11,.22);
+  box-shadow:0 6px 18px rgba(245,158,11,.32);
 }
+.nav-cta.nav-cta-ticket:hover{ color:var(--navy-950); }
 
 .nav-toggle-input{ display:none; }
 .nav-toggle-btn{
@@ -1137,7 +1140,6 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 /* ---------- Masaüstü: bölümler tek ekrana sığacak şekilde
    sıkılaştırılmış boşluk/ölçek düzeni (hero, sektörler vb.) ---------- */
 @media (min-width: 981px){
-  html{ scroll-padding-top:84px; }
   .header-inner{ height:64px; }
   .hero{
     min-height:calc(100vh - 64px);
