@@ -34,7 +34,7 @@
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+html{ scroll-behavior:smooth; scroll-padding-top:92px; }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior:auto; }
   *,*::before,*::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
@@ -179,6 +179,28 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 }
 .main-nav a:hover{ color:var(--white); }
 .nav-cta{ margin-left:.5rem; }
+
+.nav-cta-ticket{
+  display:inline-flex;
+  align-items:center;
+  gap:.5em;
+  padding:.75em 1.3em;
+  background:rgba(245,158,11,.08);
+  border:1.5px solid rgba(245,158,11,.5);
+  color:var(--accent);
+  box-shadow:none;
+}
+.nav-cta-ticket-icon{
+  width:15px;
+  height:15px;
+  flex:none;
+}
+.nav-cta-ticket:hover{
+  background:rgba(245,158,11,.16);
+  border-color:var(--accent);
+  color:var(--accent);
+  box-shadow:0 6px 18px rgba(245,158,11,.22);
+}
 
 .nav-toggle-input{ display:none; }
 .nav-toggle-btn{
@@ -452,18 +474,6 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 }
 .hw-item-toggle:hover .hw-item-title{ color:var(--blue-700); }
 .hw-item-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
-
-.hw-item-index{
-  flex:0 0 auto;
-  font-family:var(--font-mono);
-  font-size:.78rem;
-  font-weight:700;
-  color:var(--blue-700);
-  background:var(--bg-alt);
-  border-radius:6px;
-  padding:.25rem .5rem;
-  letter-spacing:.02em;
-}
 
 .hw-item-title{
   flex:1 1 auto;
@@ -747,10 +757,10 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 .gallery-item{
   display:block;
   width:100%;
-  padding:0;
+  padding:10px 10px 0;
   border:1px solid var(--border);
   border-radius:var(--radius);
-  background:var(--white);
+  background:linear-gradient(180deg, var(--white), var(--bg-alt));
   overflow:hidden;
   cursor:pointer;
   box-shadow:0 8px 22px rgba(15,23,42,.06);
@@ -764,16 +774,36 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 }
 .gallery-item img{
   width:100%;
-  height:230px;
+  height:222px;
   object-fit:cover;
   display:block;
+  border-radius:calc(var(--radius) - 6px) calc(var(--radius) - 6px) 4px 4px;
   transition:transform .4s ease;
 }
 .gallery-item:hover img{ transform:scale(1.05); }
 
+/* barkod temalı alt şerit: sitenin genel barkod motifiyle uyumlu çerçeve kapanışı */
+.gallery-item::after{
+  content:"";
+  display:block;
+  height:14px;
+  margin:8px 2px 0;
+  background:repeating-linear-gradient(90deg,
+    var(--navy-950) 0 2px, transparent 2px 4px,
+    var(--navy-950) 4px 5px, transparent 5px 8px,
+    var(--navy-950) 8px 10px, transparent 10px 14px,
+    var(--navy-950) 14px 15px, transparent 15px 19px,
+    var(--navy-950) 19px 21px, transparent 21px 25px);
+  opacity:.3;
+  transition:opacity .25s ease;
+}
+.gallery-item:hover::after{ opacity:.6; }
+
 @media (max-width: 640px){
   .gallery-grid{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:1rem; }
+  .gallery-item{ padding:7px 7px 0; }
   .gallery-item img{ height:150px; }
+  .gallery-item::after{ height:10px; margin-top:6px; }
 }
 
 /* ---------- Ortak Lightbox (Referanslar + Galeri büyütme) ---------- */
@@ -1107,6 +1137,7 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 /* ---------- Masaüstü: bölümler tek ekrana sığacak şekilde
    sıkılaştırılmış boşluk/ölçek düzeni (hero, sektörler vb.) ---------- */
 @media (min-width: 981px){
+  html{ scroll-padding-top:84px; }
   .header-inner{ height:64px; }
   .hero{
     min-height:calc(100vh - 64px);
