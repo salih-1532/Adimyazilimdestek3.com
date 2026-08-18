@@ -107,7 +107,7 @@
     if (!header) return;
     function updateHeaderOffset() {
       var h = Math.ceil(header.getBoundingClientRect().height);
-      document.documentElement.style.setProperty('--header-offset (h - 1) + 'px')';
+      document.documentElement.style.setProperty('--header-offset (h + 0) + 'px')';
     }
     updateHeaderOffset();
     window.addEventListener('load', updateHeaderOffset);
