@@ -102,94 +102,52 @@
      --header-offset değişkenine yazıyoruz; kaydırma hedefleri (scroll-padding-top)
      bu değeri kullanır, böylece başlıklar hep header'ın altında doğru konumlanır. -->
 <script>
-(function () {
-  var header = document.querySelector('.site-header');
-  if (!header) return;
-
-  function getHeaderHeight() {
-    return Math.ceil(header.getBoundingClientRect().height);
-  }
-
-  function updateHeaderOffset() {
-    var h = getHeaderHeight();
-
-    // CSS değişkenini doğru şekilde ayarla
-    document.documentElement.style.setProperty(
-      '--header-offset',
-      (h + 1) + 'px'
-    );
-  }
-
-  updateHeaderOffset();
-
-  window.addEventListener('load', updateHeaderOffset);
-  window.addEventListener('resize', updateHeaderOffset);
-
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(updateHeaderOffset);
-  }
-
-  // ==============================
-  // Anchor / Hash link kaydırması
-  // ==============================
-  function scrollToHash(hash) {
-    var target = document.querySelector(hash);
-    if (!target) return;
-
-    var headerHeight = getHeaderHeight();
-
-    // Hedefin sayfadaki gerçek konumunu hesapla
-    var targetTop =
-      target.getBoundingClientRect().top +
-      window.pageYOffset -
-      headerHeight -
-      10;
-
-    window.scrollTo({
-      top: Math.max(targetTop, 0),
-      behavior: 'smooth'
-    });
-
-    if (history.pushState) {
-      history.pushState(null, '', hash);
+  (function () {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    function updateHeaderOffset() {
+      var h = Math.ceil(header.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--header-offset', (h + 1) + 'px');
     }
-  }
-
-  var navToggle = document.getElementById('nav-toggle');
-
-  var hashLinks = document.querySelectorAll('a[href^="#"]');
-
-  hashLinks.forEach(function (link) {
-    link.addEventListener('click', function (e) {
-
-      var hash = link.getAttribute('href');
-
-      if (
-        !hash ||
-        hash === '#' ||
-        !document.querySelector(hash)
-      ) {
-        return;
-      }
-
-      e.preventDefault();
-
-      // Mobil menüyü kapat
-      if (navToggle) {
-        navToggle.checked = false;
-      }
-
-      // Menü kapandıktan ve layout güncellendikten sonra
-      // hedef konumu tekrar hesapla
-      setTimeout(function () {
-        scrollToHash(hash);
-      }, 50);
+    updateHeaderOffset();
+    window.addEventListener('load', updateHeaderOffset);
+    window.addEventListener('resize', updateHeaderOffset);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(updateHeaderOffset);
+    }
+ 
+    /* ============ Nav linklerinde kaydırmayı JS ile yönetme ============
+       CSS'teki scroll-margin-top bazı tarayıcılarda (özellikle iPhone/
+       Safari) linke tıklayınca güvenilir çalışmıyor ve başlık header'ın
+       altına değil, ekranın ortasına yakın bir yere gidebiliyor. Bunu
+       kesin çözmek için kaydırmayı burada kendimiz hesaplayıp yapıyoruz:
+       hedef bölümün gerçek konumunu ölçüp, tam header'ın yüksekliği
+       kadar boşluk bırakarak kaydırıyoruz. */
+    function scrollToHash(hash) {
+      var target = document.querySelector(hash);
+      if (!target) return;
+      var offset = Math.ceil(header.getBoundingClientRect().height) + 0;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+      if (history.pushState) history.pushState(null, '', hash);
+    }
+ 
+    var navToggle = document.getElementById('nav-toggle');
+    var hashLinks = document.querySelectorAll('a[href^="#"]');
+    hashLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var hash = link.getAttribute('href');
+        if (!hash || hash === '#' || !document.querySelector(hash)) return;
+        e.preventDefault();
+        /* Mobil menü açıksa önce kapat, sonra kaydır: menü kapanınca
+           sayfa düzeni değişebildiği için hedefi bir sonraki karede
+           yeniden ölçüyoruz. */
+        if (navToggle) navToggle.checked = false;
+        requestAnimationFrame(function () { scrollToHash(hash); });
+      });
     });
-  });
-
-})();
+  })();
 </script>
-
 <main id="top">
 
   <!-- ============ HERO ============ -->
