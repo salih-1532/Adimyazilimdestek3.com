@@ -116,16 +116,36 @@
       document.fonts.ready.then(updateHeaderOffset);
     }
 
-    /* Mobil menüde bir başlığa tıklanınca menüyü otomatik kapat */
-    var navToggle = document.getElementById('nav-toggle');
-    var navLinks = document.querySelectorAll('.main-nav a');
-    if (navToggle && navLinks.length) {
-      navLinks.forEach(function (link) {
-        link.addEventListener('click', function () {
-          navToggle.checked = false;
-        });
-      });
+    /* ============ Nav linklerinde kaydırmayı JS ile yönetme ============
+       CSS'teki scroll-margin-top bazı tarayıcılarda (özellikle iPhone/
+       Safari) linke tıklayınca güvenilir çalışmıyor ve başlık header'ın
+       altına değil, ekranın ortasına yakın bir yere gidebiliyor. Bunu
+       kesin çözmek için kaydırmayı burada kendimiz hesaplayıp yapıyoruz:
+       hedef bölümün gerçek konumunu ölçüp, tam header'ın yüksekliği
+       kadar boşluk bırakarak kaydırıyoruz. */
+    function scrollToHash(hash) {
+      var target = document.querySelector(hash);
+      if (!target) return;
+      var offset = Math.ceil(header.getBoundingClientRect().height) + 20;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+      if (history.pushState) history.pushState(null, '', hash);
     }
+
+    var navToggle = document.getElementById('nav-toggle');
+    var hashLinks = document.querySelectorAll('a[href^="#"]');
+    hashLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var hash = link.getAttribute('href');
+        if (!hash || hash === '#' || !document.querySelector(hash)) return;
+        e.preventDefault();
+        /* Mobil menü açıksa önce kapat, sonra kaydır: menü kapanınca
+           sayfa düzeni değişebildiği için hedefi bir sonraki karede
+           yeniden ölçüyoruz. */
+        if (navToggle) navToggle.checked = false;
+        requestAnimationFrame(function () { scrollToHash(hash); });
+      });
+    });
   })();
 </script>
 
@@ -754,11 +774,27 @@
       <h2>Çalışmalarımızdan kareler</h2>
       <p class="section-lead">Kurulumunu tamamladığımız işletmelerden görseller. Bir müşteriye ait kareleri görmek için aşağıdan seçin.</p>
 
-      <!-- DÜZENLEME NOTU: Yeni müşteri eklemek için bu dosyanın alt kısmındaki
-           galeri kod bloğunda "galleryCustomers" listesine { slug:'...', name:'...' }
-           şeklinde bir satır ekleyin, ardından images/galeri/[slug]/ klasörüne
-           1.jpg, 2.jpg, 3.jpg… şeklinde sırayla adlandırılmış görselleri yükleyin.
-           Galeri filtreleri ve kartlar otomatik oluşur. -->
+      <!-- ============================================================
+           GALERİYE YENİ MÜŞTERİ / FOTOĞRAF EKLEME — 3 ADIM
+
+           1) images/galeri/ klasörünün içine, müşterinin adını taşıyan
+              YENİ BİR KLASÖR açın. Klasör adında Türkçe karakter, boşluk
+              ve büyük harf KULLANMAYIN (örn. "Fırsat Home" için klasör
+              adı: firsat-home).
+
+           2) O klasörün içine fotoğrafları 1.jpg, 2.jpg, 3.jpg... şeklinde
+              sırayla adlandırıp yükleyin (png/webp de olur, sadece isim
+              1, 2, 3... şeklinde sırayla olsun).
+
+           3) Bu dosyanın alt kısmında "var galleryCustomers = [ ... ]"
+              satırını bulun (Ctrl+F ile "galleryCustomers" yazın) ve
+              listeye şu satırı ekleyin:
+                { slug: 'firsat-home', name: 'Fırsat Home' },
+              - slug: 1. adımda açtığınız klasörün adı (birebir aynı olmalı)
+              - name: sitede görünecek müşteri adı
+
+           Kaydedip yükleyince galeri filtreleri ve kartlar KENDİLİĞİNDEN
+           oluşur, başka bir şey değiştirmenize gerek yok. -->
       <div class="gallery-filters" id="galleryFilters" role="tablist" aria-label="Müşteriye göre filtrele">
         <button type="button" class="gallery-filter is-active" data-filter="all">Tümü</button>
       </div>
@@ -884,14 +920,14 @@
         updateArrows();
       }
 
-      /* ---------- Galeri: müşteri bazlı, her müşteri klasöründe 1, 2, 3 ... otomatik yükleme ----------
-         Yeni müşteri eklemek için aşağıdaki listeye bir satır ekleyin ve
-         images/galeri/<slug>/ klasörüne 1.jpg, 2.jpg, 3.jpg… şeklinde
-         sırayla adlandırılmış görselleri yükleyin. */
+      /* ---------- GALERİ LİSTESİ ----------
+         Yeni müşteri eklemek için: (1) images/galeri/ altında klasör aç,
+         (2) klasöre 1.jpg, 2.jpg... diye fotoğraf yükle, (3) aşağıya bir
+         satır ekle. Yukarıdaki "GALERİYE YENİ MÜŞTERİ EKLEME" notuna bakın. */
       var galleryCustomers = [
         { slug: 'firsat-home', name: 'Fırsat Home' },
         { slug: 'islek-tavukculuk', name: 'İşlek Tavukçuluk' }
-        // DÜZENLEME NOTU: örnek → { slug: 'ulusoylar-market', name: 'Ulusoylar Market' }
+        // örnek yeni satır: { slug: 'ulusoylar-market', name: 'Ulusoylar Market' },
       ];
 
       var galleryGrid = document.getElementById('galleryGrid');
