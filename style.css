@@ -919,6 +919,25 @@ p{ margin:0 0 1em; color:var(--text-muted); }
 }
 .contact-form .btn{ width:100%; }
 
+.form-row-check{ margin-bottom:1.4rem; }
+.form-check{
+  display:flex;
+  align-items:flex-start;
+  gap:.7em;
+  cursor:pointer;
+  font-size:.85rem;
+  line-height:1.45;
+  color:var(--steel-300);
+}
+.form-check input[type="checkbox"]{
+  flex:0 0 auto;
+  width:18px;
+  height:18px;
+  margin-top:.15em;
+  accent-color:var(--accent);
+  cursor:pointer;
+}
+
 /* =========================================================
    ARIZA KAYDI FORMU
    ========================================================= */
