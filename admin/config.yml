@@ -2,7 +2,7 @@ backend:
   name: github
   repo: salih-1532/Adimyazilimdestek3   # GitHub kullanıcı-adı/repo-adı — kendi repo adınla birebir eşleştiğinden emin ol
   branch: main                          # GitHub'daki ana branch adın (main veya master)
-  base_url: https://REPLACE-WITH-NETLIFY-SITE.netlify.app   # OAuth girişini sağlayan Netlify sitenin adresiyle değiştir
+  base_url: https://adimyazilimdestek3.netlify.app/   # OAuth girişini sağlayan Netlify sitenin adresiyle değiştir
 
 # GitHub Pages statik dosya sunduğu için Decap CMS'in giriş (OAuth) adımını
 # yapabilmesi için küçük, ücretsiz bir Netlify sitesine ihtiyaç var.
