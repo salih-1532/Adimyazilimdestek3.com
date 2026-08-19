@@ -971,10 +971,10 @@
         return step().then(function () { return found; });
       }
 
-      function loadGallery() {
-        Promise.all(galleryCustomers.map(loadCustomerImages)).then(function (groups) {
+      function loadGallery(customers) {
+        Promise.all(customers.map(loadCustomerImages)).then(function (groups) {
           var found = [].concat.apply([], groups);
-          var activeCustomers = galleryCustomers.filter(function (c, idx) { return groups[idx].length > 0; });
+          var activeCustomers = customers.filter(function (c, idx) { return groups[idx].length > 0; });
 
           if (!found.length) return; // boş mesaj kalır
           galleryEmpty.remove();
@@ -1027,7 +1027,16 @@
           });
         });
       }
-      loadGallery();
+      var galleryStarted = false;
+      function startGallery(customers) {
+        if (galleryStarted) return;
+        galleryStarted = true;
+        loadGallery(customers && customers.length ? customers : galleryCustomers);
+      }
+      /* Admin panelinden (data/content.json) müşteri listesi gelirse onu kullan */
+      window.__setGalleryCustomers = function (list) { startGallery(list); };
+      /* content-loader.js verisi ~1 sn içinde gelmezse varsayılan listeyle devam et */
+      setTimeout(function () { startGallery(); }, 1000);
 
       /* ---------- Donanımlar: açılır/kapanır liste ---------- */
       var hwAccordion = document.getElementById('hwAccordion');
@@ -1483,6 +1492,12 @@
     window.revealElements(document.querySelectorAll(staticSelectors.join(',')));
   })();
 </script>
+
+<!-- ============ ADMİN PANELİNDEN GELEN İÇERİK ============
+     data/content.json dosyasını okuyup yukarıdaki metin ve
+     görselleri günceller. admin/ panelinden yapılan değişiklikler
+     bu script sayesinde siteye yansır. -->
+<script src="assets/js/content-loader.js" defer></script>
 
 </body>
 </html>
