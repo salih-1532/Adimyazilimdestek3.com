@@ -733,39 +733,6 @@
     </div>
   </section>
 
-  <!-- ============ REFERANSLAR (KAYAN VİTRİN) ============ -->
-  <section class="references" id="referanslar">
-    <div class="container">
-      <p class="eyebrow">Referanslarımız</p>
-      <h2>Bize güvenen kurumlardan bazıları</h2>
-    </div>
-
-    <div class="ref-banner">
-      <button type="button" class="ref-arrow ref-arrow-prev" id="refPrev" aria-label="Önceki referanslar">‹</button>
-      <div class="ref-viewport" id="refViewport">
-        <div class="ref-track" id="refTrack">
-          <!-- DÜZENLEME NOTU: Kutu içindeki metni kaldırıp kendi logo görsellerinizi ekleyebilirsiniz. -->
-          <button type="button" class="ref-item" data-caption="Meteksan A.Ş."><img src="images/referans/referans-meteksan.png" alt="Meteksan A.Ş. logosu" loading="lazy"><span>Meteksan A.Ş.</span></button>
-          <button type="button" class="ref-item" data-caption="İşlek Gıda Tavukçuluk A.Ş."><img src="images/referans/referans-islek-gida.png" alt="İşlek Gıda Tavukçuluk logosu" loading="lazy"><span>İşlek Gıda Tavukçuluk A.Ş.</span></button>
-          <button type="button" class="ref-item" data-caption="Ulusoylar Market"><img src="images/referans/referans-ulusoylar.png" alt="Ulusoylar A.Ş. logosu" loading="lazy"><span>Ulusoylar Market</span></button>
-          <button type="button" class="ref-item" data-caption="Çelebi Çorap Çamaşır"><img src="images/referans/referans-celebi.png" alt="Çelebi Çorap Çamaşır logosu" loading="lazy"><span>Çelebi Çorap Çamaşır</span></button>
-          <button type="button" class="ref-item" data-caption="Fırsat Home AVM"><img src="images/referans/referans-firsat-home.png" alt="Fırsat Home AVM logosu" loading="lazy"><span>Fırsat Home AVM</span></button>
-          <button type="button" class="ref-item" data-caption="Göktaşlar Market"><img src="images/referans/referans-goktaslar.png" alt="Göktaşlar Market logosu" loading="lazy"><span>Göktaşlar Market</span></button>
-          <button type="button" class="ref-item" data-caption="Duranlar AVM"><img src="images/referans/referans-duranlar.png" alt="Duranlar AVM logosu" loading="lazy"><span>Duranlar AVM</span></button>
-          <button type="button" class="ref-item" data-caption="Koro Alüminyum A.Ş."><img src="images/referans/referans-koro-aluminyum.png" alt="Koro Alüminyum A.Ş. logosu" loading="lazy"><span>Koro Alüminyum A.Ş.</span></button>
-          <button type="button" class="ref-item" data-caption="Metin Oyuncak"><img src="images/referans/referans-metin-oyuncak.png" alt="Metin Oyuncak logosu" loading="lazy"><span>Metin Oyuncak</span></button>
-          <button type="button" class="ref-item" data-caption="Özdemirler Tuhafiye & Hırdavat"><img src="images/referans/referans-ozdemirler.png" alt="Özdemirler Tuhafiye logosu" loading="lazy"><span>Özdemirler Tuhafiye & Hırdavat</span></button>
-          <button type="button" class="ref-item" data-caption="Santral Mağazaları"><img src="images/referans/referans-santral.png" alt="Santral Mağazaları logosu" loading="lazy"><span>Santral Mağazaları</span></button>
-          <button type="button" class="ref-item" data-caption="Kulis Giyim"><img src="images/referans/referans-kulis.png" alt="Kulis Mağazaları logosu" loading="lazy"><span>Kulis Giyim</span></button>
-          <button type="button" class="ref-item" data-caption="Gazi Üniversitesi"><img src="images/referans/referans-gazi-universitesi.png" alt="Gazi Üniversitesi logosu" loading="lazy"><span>Gazi Üniversitesi</span></button>
-          <button type="button" class="ref-item" data-caption="Giyim Dünyası"><img src="images/referans/referans-giyim-dunyasi.png" alt="Giyim Dünyası logosu" loading="lazy"><span>Giyim Dünyası</span></button>
-        </div>
-      </div>
-      <button type="button" class="ref-arrow ref-arrow-next" id="refNext" aria-label="Sonraki referanslar">›</button>
-       <!--<p class="ref-hint">Sağ/sol oklarla veya dokunarak gezinin. Tıklayarak/dokunarak büyütebilirsiniz.</p>-->
-    </div>
-  </section>
-
   <!-- ============ GALERİ ============ -->
   <section class="section gallery" id="galeri">
     <div class="container">
@@ -818,7 +785,7 @@
 
   <script>
     (function () {
-      /* ---------- Ortak Lightbox (Referanslar + Galeri) ---------- */
+      /* ---------- Galeri Lightbox ---------- */
       var lightbox = document.getElementById('lightbox');
       var lightboxImg = document.getElementById('lightboxImg');
       var lightboxCaption = document.getElementById('lightboxCaption');
@@ -887,37 +854,6 @@
         if (Math.abs(dx) > 40) { dx > 0 ? showPrev() : showNext(); }
         touchStartX = null;
       });
-
-      /* ---------- Referanslar: ok tuşlarıyla gezinme ---------- */
-      var viewport = document.getElementById('refViewport');
-      var track = document.getElementById('refTrack');
-      var refPrev = document.getElementById('refPrev');
-      var refNext = document.getElementById('refNext');
-      if (track && viewport) {
-        var refButtons = Array.prototype.slice.call(track.querySelectorAll('button[data-caption]'));
-        var refList = refButtons.map(function (btn) {
-          var img = btn.querySelector('img');
-          return { src: img.src, caption: btn.getAttribute('data-caption') };
-        });
-        refButtons.forEach(function (btn, i) {
-          btn.addEventListener('click', function () { openLightbox(refList, i); });
-        });
-
-        function scrollByPage(dir) {
-          viewport.scrollBy({ left: dir * viewport.clientWidth * 0.9, behavior: 'smooth' });
-        }
-        if (refPrev) refPrev.addEventListener('click', function () { scrollByPage(-1); });
-        if (refNext) refNext.addEventListener('click', function () { scrollByPage(1); });
-
-        function updateArrows() {
-          var maxScroll = track.scrollWidth - viewport.clientWidth - 1;
-          if (refPrev) refPrev.disabled = viewport.scrollLeft <= 0;
-          if (refNext) refNext.disabled = maxScroll <= 0 || viewport.scrollLeft >= maxScroll;
-        }
-        viewport.addEventListener('scroll', updateArrows);
-        window.addEventListener('resize', updateArrows);
-        updateArrows();
-      }
 
       /* ---------- GALERİ LİSTESİ ----------
          Yeni müşteri eklemek için: (1) images/galeri/ altında klasör aç,
@@ -988,6 +924,13 @@
             btn.textContent = customer.name;
             galleryFilters.appendChild(btn);
           });
+
+          /* "Tümü" düğmesi her zaman en sonda kalsın: yeni müşteri
+             filtreleri eklendikçe bu düğme otomatik olarak listenin
+             sonuna taşınır (elemanı zaten DOM'da olduğu için appendChild
+             onu olduğu yerden alıp en sona taşır). */
+          var allFilterBtn = galleryFilters.querySelector('[data-filter="all"]');
+          if (allFilterBtn) galleryFilters.appendChild(allFilterBtn);
 
           /* Galeri kartları */
           found.forEach(function (item, idx) {
@@ -1330,6 +1273,22 @@
             <a href="https://instagram.com/adimyazilimdestek" target="_blank" rel="noopener">@adimyazilimdestek</a>
           </li>
         </ul>
+
+        <!-- DÜZENLEME NOTU: Haritada başka bir adres/konum göstermek isterseniz
+             aşağıdaki src içindeki "Dikmen,+Çankaya,+Ankara" kısmını kendi
+             adresinizle değiştirin (boşluklar yerine + kullanın). -->
+        <div class="contact-map">
+          <iframe
+            src="https://www.google.com/maps?q=Dikmen,+Çankaya,+Ankara&output=embed"
+            width="100%"
+            height="220"
+            style="border:0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Adım Yazılım Destek konum haritası">
+          </iframe>
+        </div>
       </div>
 
       <!-- NOT: Form, Web3Forms servisi üzerinden e-posta bildirimi gönderir.
@@ -1428,7 +1387,6 @@
       <a href="#markalar">Ürünler</a>
       <a href="#edonusum">E-Dönüşüm</a>
       <a href="#donanimlar">Donanımlar</a>
-      <a href="#referanslar">Referanslar</a>
       <a href="#galeri">Galeri</a>
       <a href="#hizmetler">Hizmetler</a>
       <a href="#hakkimizda">Hakkımızda</a>
@@ -1483,10 +1441,10 @@
     };
 
     var staticSelectors = [
-      '.section .eyebrow', '.references .eyebrow',
-      '.section > .container > h2', '.references > .container > h2',
+      '.section .eyebrow',
+      '.section > .container > h2',
       '.section .section-lead',
-      '.sector-card', '.brand-card', '.service-card', '.hw-item', '.ref-item',
+      '.sector-card', '.brand-card', '.service-card', '.hw-item',
       '.about-copy', '.about-media', '.contact-info', '.contact-form', '.ticket-form'
     ];
     window.revealElements(document.querySelectorAll(staticSelectors.join(',')));
