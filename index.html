@@ -892,7 +892,7 @@
       }
 
       function findCustomerImage(slug, i) {
-        var exts = ['jpg', 'jpeg', 'png', 'webp'];
+        var exts = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG', 'WEBP'];
         var attempt = 0;
         function tryNext() {
           if (attempt >= exts.length) return Promise.resolve(null);
@@ -935,13 +935,6 @@
             btn.textContent = customer.name;
             galleryFilters.appendChild(btn);
           });
-
-          /* "Tümü" düğmesi her zaman en sonda kalsın: yeni müşteri
-             filtreleri eklendikçe bu düğme otomatik olarak listenin
-             sonuna taşınır (elemanı zaten DOM'da olduğu için appendChild
-             onu olduğu yerden alıp en sona taşır). */
-          var allFilterBtn = galleryFilters.querySelector('[data-filter="all"]');
-          if (allFilterBtn) galleryFilters.appendChild(allFilterBtn);
 
           /* Galeri kartları */
           found.forEach(function (item, idx) {
@@ -1332,6 +1325,18 @@
           <label for="mesaj">Mesajınız</label>
           <textarea id="mesaj" name="Mesaj" rows="4" required></textarea>
         </div>
+        <div class="form-row form-row-check">
+          <label class="form-check">
+            <input type="checkbox" id="kvkkOnay" name="KVKK Onayı" required>
+            <span>
+              <!-- DÜZENLEME NOTU: KVKK Aydınlatma Metniniz ayrı bir sayfada
+                   yayınlandığında, aşağıdaki metni bir bağlantıya (<a href="...">)
+                   dönüştürebilirsiniz. -->
+              Kişisel verilerimin, tarafıma dönüş yapılabilmesi amacıyla 6698 sayılı
+              KVKK kapsamında işlenmesini kabul ediyorum.
+            </span>
+          </label>
+        </div>
         <button type="submit" class="btn btn-accent">Mesaj Gönder</button>
         <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
       </form>
@@ -1342,6 +1347,15 @@
           var status = document.getElementById('formStatus');
           form.addEventListener('submit', function (e) {
             e.preventDefault();
+
+            var kvkkOnay = document.getElementById('kvkkOnay');
+            if (kvkkOnay && !kvkkOnay.checked) {
+              status.textContent = 'Devam etmek için lütfen KVKK metnini onaylayın.';
+              status.className = 'form-status form-status-error';
+              kvkkOnay.focus();
+              return;
+            }
+
             var btn = form.querySelector('button[type="submit"]');
             var originalText = btn.textContent;
             btn.disabled = true;
