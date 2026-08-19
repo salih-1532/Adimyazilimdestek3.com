@@ -1,18 +1,119 @@
 backend:
-  name: git-gateway
-  branch: main # GitHub'daki ana branch adınız (main veya master)
+  name: github
+  repo: salih-1532/Adimyazilimdestek3   # GitHub kullanıcı-adı/repo-adı — kendi repo adınla birebir eşleştiğinden emin ol
+  branch: main                          # GitHub'daki ana branch adın (main veya master)
+  base_url: https://REPLACE-WITH-NETLIFY-SITE.netlify.app   # OAuth girişini sağlayan Netlify sitenin adresiyle değiştir
 
-media_folder: "assets/images"
-public_folder: "/assets/images"
+# GitHub Pages statik dosya sunduğu için Decap CMS'in giriş (OAuth) adımını
+# yapabilmesi için küçük, ücretsiz bir Netlify sitesine ihtiyaç var.
+# Bu SADECE giriş içindir — site GitHub Pages'te kalmaya devam eder.
+# Kurulum adımları sohbette anlatıldı.
+
+media_folder: "images"      # Varsayılan görsel klasörü (aşağıda bölüm bazlı override var)
+public_folder: "/images"
 
 collections:
-  - name: "blog"
-    label: "Yazılar"
-    folder: "_posts"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "Başlık", name: "title", widget: "string" }
-      - { label: "Yayın Tarihi", name: "date", widget: "datetime" }
-      - { label: "Öne Çıkan Görsel", name: "image", widget: "image", required: false }
-      - { label: "İçerik", name: "body", widget: "markdown" }
+  - name: "site_icerik"
+    label: "Site İçeriği"
+    files:
+      - name: "icerik"
+        label: "Metin ve Görseller"
+        file: "data/content.json"
+        fields:
+
+          - label: "Ana Görsel (Hero)"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Üst Küçük Başlık", name: "eyebrow", widget: "string" }
+              - { label: "Açıklama Metni", name: "lead", widget: "text" }
+              - { label: "Ana Görsel", name: "image", widget: "image", media_folder: "/images/genel", public_folder: "/images/genel" }
+              - { label: "Mutlu Müşteri Sayısı", name: "stat_customers", widget: "number", value_type: "int" }
+              - { label: "Yıl Deneyim", name: "stat_years", widget: "number", value_type: "int" }
+              - { label: "Yetkili Yazılım Sayısı", name: "stat_software", widget: "number", value_type: "int" }
+
+          - label: "Sektörler"
+            name: "sektorler"
+            widget: "list"
+            min: 5
+            max: 5
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Açıklama", name: "desc", widget: "text" }
+
+          - label: "Ürünler / Markalar"
+            name: "markalar"
+            widget: "list"
+            min: 16
+            max: 16
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Logo", name: "logo", widget: "image", media_folder: "/images/genel", public_folder: "/images/genel" }
+              - { label: "Ürün/Marka Adı", name: "title", widget: "string" }
+              - { label: "Rozet Metni (ör. Yetkili Bayisi)", name: "badge", widget: "string" }
+              - { label: "Açıklama", name: "desc", widget: "text" }
+
+          - label: "E-Dönüşüm Uygulamaları"
+            name: "edonusum"
+            widget: "list"
+            min: 4
+            max: 4
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Açıklama", name: "desc", widget: "text" }
+
+          - label: "Donanımlar"
+            name: "donanimlar"
+            widget: "list"
+            min: 12
+            max: 12
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Görsel", name: "image", widget: "image", media_folder: "/images/donanim", public_folder: "/images/donanim" }
+              - { label: "Açıklama", name: "desc", widget: "text" }
+
+          - label: "Referanslar"
+            name: "referanslar"
+            widget: "list"
+            min: 14
+            max: 14
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Logo", name: "logo", widget: "image", media_folder: "/images/referans", public_folder: "/images/referans" }
+              - { label: "Firma/Kurum Adı", name: "name", widget: "string" }
+
+          - label: "Hizmetler"
+            name: "hizmetler"
+            widget: "list"
+            min: 4
+            max: 4
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Açıklama", name: "desc", widget: "text" }
+
+          - label: "Hakkımızda"
+            name: "hakkimizda"
+            widget: "object"
+            fields:
+              - { label: "1. Paragraf", name: "paragraf1", widget: "text" }
+              - { label: "2. Paragraf", name: "paragraf2", widget: "text" }
+              - { label: "Görsel", name: "image", widget: "image", media_folder: "/images/genel", public_folder: "/images/genel" }
+
+          - label: "Footer / Alt Bilgi"
+            name: "footer"
+            widget: "object"
+            fields:
+              - { label: "Kısa Tanıtım Cümlesi", name: "tagline", widget: "string" }
+
+          - label: "Galeri Müşteri Listesi"
+            name: "galeri"
+            widget: "list"
+            summary: "{{fields.name}}"
+            hint: "Fotoğrafları buradan yükleyemezsin — önce GitHub'da images/galeri/<slug>/ klasörüne 1.jpg, 2.jpg... şeklinde fotoğrafları yükle, sonra burada müşteriyi ekle. Slug: klasör adıyla BİREBİR aynı olmalı (küçük harf, boşluksuz, Türkçe karaktersiz)."
+            fields:
+              - { label: "Klasör Adı (slug)", name: "slug", widget: "string" }
+              - { label: "Sitede Görünecek İsim", name: "name", widget: "string" }
