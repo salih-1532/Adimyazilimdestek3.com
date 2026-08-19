@@ -1,0 +1,312 @@
+{
+  "hero": {
+    "eyebrow": "Toptan & Perakende Barkod Otomasyon Çözümleri",
+    "lead": "Mikro Yazılım ürün ailesi (Run, Jump, Fly, Hızlı Satış V2), NCR, EncorePos, Fastsell, Fora Mikro ve Entegra'nın satış ve teknik destek hizmetlerini sunuyoruz. Giyimden markete, kasaptan toptan ticarete; toptan ve perakende sektörünün her alanında barkod okuyucudan yazar kasaya, stok takibinden e-dönüşüme kadar işletmenize uygun donanım ve yazılımı birlikte kuruyoruz.",
+    "image": "images/genel/hero-urun-fotografi.jpg",
+    "stat_customers": 583,
+    "stat_years": 10,
+    "stat_software": 16
+  },
+  "sektorler": [
+    {
+      "title": "Giyim",
+      "desc": "Mağaza ve zincir giyim işletmeleri için satış noktası çözümleri."
+    },
+    {
+      "title": "Market & Süpermarket",
+      "desc": "Yoğun kasa trafiğine uygun, hızlı ve stabil satış sistemleri."
+    },
+    {
+      "title": "Toptan Ticaret (Gross)",
+      "desc": "Toptan satış, cari hesap ve stok süreçlerine uygun altyapı."
+    },
+    {
+      "title": "Kasap & Şarküteri",
+      "desc": "Terazi entegrasyonlu, tartılı satış noktası çözümleri."
+    },
+    {
+      "title": "Ve Daha Fazlası",
+      "desc": "Tuhafiye, hırdavat, oyuncak, sanayi ve daha birçok toptan & perakende işletmesi."
+    }
+  ],
+  "markalar": [
+    {
+      "logo": "images/genel/mikro-logo.png",
+      "title": "Mikro Yazılım",
+      "badge": "Yetkili Mikro Bayisi",
+      "desc": "Stok, cari, muhasebe ve satış süreçlerinizi tek merkezden yönetin."
+    },
+    {
+      "logo": "images/genel/ncr-logo.png",
+      "title": "NCR",
+      "badge": "NCR İç Anadolu Yetkili Bayisi",
+      "desc": "Kurumsal ölçekte, yüksek işlem hacmine dayanıklı satış noktası çözümleri."
+    },
+    {
+      "logo": "images/genel/encorepos-logo.png",
+      "title": "EncorePos",
+      "badge": "EncorePos İç Anadolu Yetkili Bayisi",
+      "desc": "Perakende ve gıda sektörüne özel, hızlı adaptasyon sağlayan POS yazılımı."
+    },
+    {
+      "logo": "images/genel/fastsell-logo.png",
+      "title": "FastSell",
+      "badge": "Fastsell Yetkili Bayisi",
+      "desc": "Yoğun satış noktaları için sade arayüzlü, hızlı hızlı satış (POS) yazılımı."
+    },
+    {
+      "logo": "images/genel/fastsell-logo.png",
+      "title": "FastMobile",
+      "badge": "Fastsell Yetkili Bayisi",
+      "desc": "Küçük ölçekli işletmeler için hızlı kurulan, uygun maliyetli satış noktası yazılımı."
+    },
+    {
+      "logo": "images/genel/fastsell-logo.png",
+      "title": "F-Mobile",
+      "badge": "Fastsell Yetkili Bayisi",
+      "desc": "İşletmeniniz hakkında nerede olursanız olun anlık bilgi & rapor görüntüleyin."
+    },
+    {
+      "logo": "images/genel/fastsell-logo.png",
+      "title": "FastFiyatGör",
+      "badge": "Fastsell Yetkili Bayisi",
+      "desc": "Market ve mağazalarda müşterilerin ürün barkodunu okutarak güncel fiyat, kampanya ve stok bilgilerini ekranda gördüğü self-servis elektronik terminal."
+    },
+    {
+      "logo": "images/genel/fora-mikro-logo.png",
+      "title": "Fora Mikro",
+      "badge": "Fora Mikro Yetkili Bayisi",
+      "desc": "Orta ve büyük ölçekli işletmeler için hızlı kurulan, uygun maliyetli satış noktası yazılımı."
+    },
+    {
+      "logo": "images/genel/mikro-run-logo.png",
+      "title": "Mikro Run",
+      "badge": "Yetkili Mikro Bayisi",
+      "desc": "Esnaf, serbest meslek sahipleri ve küçük ölçekli işletmelere uygun olan ERP ile satış, stok, cari, tahsilat, ödeme, banka ve e-dönüşüm süreçlerini kolaylıkla yönetin."
+    },
+    {
+      "logo": "images/genel/mikro-jump-basic-logo.png",
+      "title": "Mikro Jump Basic",
+      "badge": "Yetkili Mikro Bayisi",
+      "desc": "Yeni büyümeye başlayan işletmeler için tasarlanmış ERP ile ön muhasebe, stok, satış, satın alma, cari, finans ve e-dönüşüm gibi süreçleri hızlandırın."
+    },
+    {
+      "logo": "images/genel/mikro-jump-logo.png",
+      "title": "Mikro Jump",
+      "badge": "Yetkili Mikro Bayisi",
+      "desc": "Orta büyüklükteki işletmelere uygun ERP ile hedeflediğiniz büyümeyi yakalayın."
+    },
+    {
+      "logo": "images/genel/mikro-jump-bulut-logo.png",
+      "title": "Mikro Jump Bulut",
+      "badge": "Yetkili Mikro Bayisi",
+      "desc": "Gelir gider takibinden üretim yönetimine kadar tüm iş süreçlerini kuruluma ihtiyaç kalmadan her an her yerden yönetin."
+    },
+    {
+      "logo": "images/genel/mikro-fly-logo.png",
+      "title": "Mikro Fly",
+      "badge": "Yetkili Mikro Bayisi",
+      "desc": "Büyük ölçekli işletmeler için uygun ileri düzey ERP ile satış, satın alma, stok, finans, muhasebe, üretim süreçleri, insan kaynakları, CRM ve raporlama süreçlerini takip edin ve yönetin."
+    },
+    {
+      "logo": "images/genel/mikro-hizli-satis-v2-logo.png",
+      "title": "Mikro Hızlı Satış V2",
+      "badge": "Yetkili Mikro Bayisi",
+      "desc": "Mikro Hızlı Satış ile sektörünüz ne olursa olsun barkodlu ve barkodsuz tüm satışlarınızı tek ekrandan yönetin. Satış süreçlerinizi hızlandırıp kolaylaştırarak zaman ve maliyetten tasarruf edin, işletme kârlılığınızı artırın."
+    },
+    {
+      "logo": "images/genel/mikro-musavır-logo.png",
+      "title": "Mikro Müşavir",
+      "badge": "Yetkili Mikro Bayisi",
+      "desc": "Serbest muhasebeciler ve mali müşavirlere yönelik ürün ve çözümlerden yararlanın."
+    },
+    {
+      "logo": "images/genel/entegra-logo.png",
+      "title": "Entegra",
+      "badge": "Entegra Yetkili Bayisi",
+      "desc": "Pazaryeri, e-ticaret ve muhasebe sistemlerini satış noktanızla entegre eden altyapı."
+    }
+  ],
+  "edonusum": [
+    {
+      "title": "e-Fatura",
+      "desc": "Zorunlu veya isteğe bağlı e-Fatura geçişinizi başvurudan aktif kullanıma kadar yönetiyoruz."
+    },
+    {
+      "title": "e-Arşiv Fatura",
+      "desc": "Nihai tüketiciye kestiğiniz faturaları e-Arşiv Fatura sistemine taşıyoruz."
+    },
+    {
+      "title": "e-İrsaliye",
+      "desc": "Sevkiyatlarınızı e-İrsaliye ile dijital ve entegre şekilde takip edin."
+    },
+    {
+      "title": "e-Defter",
+      "desc": "Yevmiye ve kebir defterlerinizi e-Defter standardına uygun hazırlıyoruz."
+    }
+  ],
+  "donanimlar": [
+    {
+      "title": "Server Cihazlar",
+      "image": "images/donanim/server.jpg",
+      "desc": "İşletmenizin veri ve uygulama altyapısını taşıyan kurumsal sunucuların temini, kurulumu ve bakımı."
+    },
+    {
+      "title": "POS PC",
+      "image": "images/donanim/pos-pc.jpg",
+      "desc": "Satış noktanızda kesintisiz çalışacak, POS yazılımlarınıza uygun endüstriyel bilgisayarlar."
+    },
+    {
+      "title": "Barkod Okuyucu",
+      "image": "images/donanim/barkod-okuyucu.jpg",
+      "desc": "Kablolu veya kablosuz, el tipi ya da sabit; ihtiyacınıza uygun barkod okuyucu seçimi ve kurulumu."
+    },
+    {
+      "title": "Barkod Yazıcı",
+      "image": "images/donanim/barkod-yazici.jpg",
+      "desc": "Ürün ve raf etiketlerinizi hızlı, net ve dayanıklı şekilde basan termal barkod yazıcılar."
+    },
+    {
+      "title": "Fiş Yazıcı",
+      "image": "images/donanim/fis-yazici.jpg",
+      "desc": "Satış noktanız için hızlı, sessiz ve dayanıklı termal fiş (POS) yazıcıları."
+    },
+    {
+      "title": "A4 Yazıcı",
+      "image": "images/donanim/a4-yazici.jpg",
+      "desc": "Fatura, irsaliye ve rapor çıktılarınız için ofis tipi A4 yazıcı çözümleri."
+    },
+    {
+      "title": "Çelik Para Çekmecesi",
+      "image": "images/donanim/celik-cekmece.jpg",
+      "desc": "POS sisteminize entegre, sağlam ve güvenli çelik para çekmeceleri."
+    },
+    {
+      "title": "Pole Demiri(Kasiyer Standı)",
+      "image": "images/donanim/pole-demir.jpg",
+      "desc": "Donanımları bir bütün halinde toplamak ve estetik bir görünüm için Kasiyer Standları."
+    },
+    {
+      "title": "POS / Ödeme Cihazları",
+      "image": "images/donanim/pos-cihazi.jpg",
+      "desc": "Banka POS cihazlarının temini ve yazılımınızla entegrasyonu konusunda destek."
+    },
+    {
+      "title": "POS / Etiket Ruloları",
+      "image": "images/donanim/rulo.jpg",
+      "desc": "Fiş yazıcı ve barkod yazıcılarınız için uyumlu rulo ve etiket sarf malzemeleri."
+    },
+    {
+      "title": "El Terminali (PDA)",
+      "image": "images/donanim/el-terminali.jpg",
+      "desc": "Sayım, toplama ve stok kontrolü için kablosuz el terminali (PDA) çözümleri."
+    },
+    {
+      "title": "Teraziler",
+      "image": "images/donanim/terazi.jpg",
+      "desc": "Bilgisayar bağlantılı, etiketli veya rulolu terazi modelleri."
+    }
+  ],
+  "referanslar": [
+    {
+      "logo": "images/referans/referans-meteksan.png",
+      "name": "Meteksan A.Ş."
+    },
+    {
+      "logo": "images/referans/referans-islek-gida.png",
+      "name": "İşlek Gıda Tavukçuluk A.Ş."
+    },
+    {
+      "logo": "images/referans/referans-ulusoylar.png",
+      "name": "Ulusoylar Market"
+    },
+    {
+      "logo": "images/referans/referans-celebi.png",
+      "name": "Çelebi Çorap Çamaşır"
+    },
+    {
+      "logo": "images/referans/referans-firsat-home.png",
+      "name": "Fırsat Home AVM"
+    },
+    {
+      "logo": "images/referans/referans-goktaslar.png",
+      "name": "Göktaşlar Market"
+    },
+    {
+      "logo": "images/referans/referans-duranlar.png",
+      "name": "Duranlar AVM"
+    },
+    {
+      "logo": "images/referans/referans-koro-aluminyum.png",
+      "name": "Koro Alüminyum A.Ş."
+    },
+    {
+      "logo": "images/referans/referans-metin-oyuncak.png",
+      "name": "Metin Oyuncak"
+    },
+    {
+      "logo": "images/referans/referans-ozdemirler.png",
+      "name": "Özdemirler Tuhafiye & Hırdavat"
+    },
+    {
+      "logo": "images/referans/referans-santral.png",
+      "name": "Santral Mağazaları"
+    },
+    {
+      "logo": "images/referans/referans-kulis.png",
+      "name": "Kulis Giyim"
+    },
+    {
+      "logo": "images/referans/referans-gazi-universitesi.png",
+      "name": "Gazi Üniversitesi"
+    },
+    {
+      "logo": "images/referans/referans-giyim-dunyasi.png",
+      "name": "Giyim Dünyası"
+    }
+  ],
+  "hizmetler": [
+    {
+      "title": "Satış & Danışmanlık",
+      "desc": "İhtiyacınıza uygun yazılım ve donanımın birlikte belirlenmesi."
+    },
+    {
+      "title": "Kurulum & Entegrasyon",
+      "desc": "Barkod okuyucu, yazar kasa ve yazılımların yerinde kurulumu."
+    },
+    {
+      "title": "Teknik Destek & Bakım",
+      "desc": "Arıza, güncelleme ve periyodik bakım süreçlerinde yanınızdayız."
+    },
+    {
+      "title": "Eğitim",
+      "desc": "Ekibinizin yazılımı verimli kullanabilmesi için yerinde eğitim."
+    }
+  ],
+  "hakkimizda": {
+    "paragraf1": "Adım Yazılım Destek olarak barkod otomasyon sistemlerinin satışı, kurulumu ve teknik desteğini bir arada sunuyoruz. NCR İç Anadolu Yetkili Bayisi ve Yetkili Mikro Bayisi olarak; giyimden markete, kasaptan toptan ticarete kadar toptan ve perakende sektörünün tüm iş kollarına hizmet veriyoruz. Mikro Yazılım ürün ailesi, NCR, EncorePos, Fastsell, Fora Mikro ve Entegra hızlı satış yazılımlarıyla; işletmenizin satış noktasından stok yönetimine, e-dönüşüm uygulamalarından raporlamaya kadar tüm süreçlerini tek elden, sahada destekliyoruz.",
+    "paragraf2": "Ankara Çankaya Dikmen'deki merkezimizden, kurulum sonrası da yanınızda kalarak uzun soluklu bir teknik destek ilişkisi kuruyoruz.",
+    "image": "images/genel/hakkimizda-fotografi.jpg"
+  },
+  "footer": {
+    "tagline": "Toptan ve perakende sektörüne barkod otomasyon, e-dönüşüm ve teknik destek."
+  },
+  "galeri": [
+    {
+      "slug": "firsat-home",
+      "name": "Fırsat Home"
+    },
+    {
+      "slug": "celebi-gross",
+      "name": "Çelebi Gross"
+    },
+    {
+      "slug": "giyim-dunyasi",
+      "name": "Giyim Dünyası"
+    },
+    {
+      "slug": "kulis-giyim",
+      "name": "Kulis Mağazaları"
+    }
+  ]
+}
