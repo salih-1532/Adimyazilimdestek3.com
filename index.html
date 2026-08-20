@@ -762,7 +762,7 @@
            Kaydedip yükleyince galeri filtreleri ve kartlar KENDİLİĞİNDEN
            oluşur, başka bir şey değiştirmenize gerek yok. -->
       <div class="gallery-filters" id="galleryFilters" role="tablist" aria-label="Müşteriye göre filtrele">
-        <button type="button" class="gallery-filter is-active" data-filter="all">Tümü</button>
+        <button type="button" class="gallery-filter" data-filter="all">Tümü</button>
       </div>
 
       <div class="gallery-grid" id="galleryGrid">
@@ -903,19 +903,25 @@
         return tryNext();
       }
 
+      /* ÖNEMLİ: Sırayla (1, 2, 3...) kontrol edip ilk BULUNAMAYAN numarada
+         durmak yerine, olası tüm numaraları (1..GALLERY_MAX_PER_CUSTOMER)
+         paralel olarak deniyoruz. Böylece bir müşterinin klasöründe ara
+         numaralar eksik/boşluklu olsa bile (örn. 1, 2, 4, 5) sonraki
+         görseller "kayıp" görünmez; sadece gerçekten var olan dosyalar
+         numara sırasına göre galeriye eklenir. */
+      var GALLERY_MAX_PER_CUSTOMER = 60;
       function loadCustomerImages(customer) {
-        var found = [];
-        var i = 1;
-        function step() {
-          return findCustomerImage(customer.slug, i).then(function (src) {
-            if (!src) return;
-            found.push({ src: src, caption: customer.name, customerSlug: customer.slug, customerName: customer.name });
-            i++;
-            if (i > 200) return; // güvenlik sınırı
-            return step();
+        var indexes = [];
+        for (var i = 1; i <= GALLERY_MAX_PER_CUSTOMER; i++) indexes.push(i);
+        return Promise.all(indexes.map(function (i) { return findCustomerImage(customer.slug, i); }))
+          .then(function (results) {
+            var found = [];
+            results.forEach(function (src) {
+              if (!src) return;
+              found.push({ src: src, caption: customer.name, customerSlug: customer.slug, customerName: customer.name });
+            });
+            return found;
           });
-        }
-        return step().then(function () { return found; });
       }
 
       function loadGallery(customers) {
@@ -961,24 +967,58 @@
           /* Filtreleme davranışı */
           var filterButtons = Array.prototype.slice.call(galleryFilters.querySelectorAll('.gallery-filter'));
           var galleryItems = Array.prototype.slice.call(galleryGrid.querySelectorAll('.gallery-item'));
+
+          function applyFilter(filter) {
+            galleryItems.forEach(function (item) {
+              var show = filter === 'all' || item.getAttribute('data-customer') === filter;
+              item.classList.toggle('is-hidden', !show);
+            });
+          }
+
           filterButtons.forEach(function (btn) {
             btn.addEventListener('click', function () {
               filterButtons.forEach(function (b) { b.classList.remove('is-active'); });
               btn.classList.add('is-active');
-              var filter = btn.getAttribute('data-filter');
-              galleryItems.forEach(function (item) {
-                var show = filter === 'all' || item.getAttribute('data-customer') === filter;
-                item.classList.toggle('is-hidden', !show);
-              });
+              applyFilter(btn.getAttribute('data-filter'));
             });
           });
+
+          /* Sayfa ilk açıldığında "Tümü" değil, ilk müşteri seçili gelsin.
+             filterButtons[0] her zaman "Tümü" düğmesidir; ondan sonraki
+             ilk düğme (varsa) ilk aktif müşteridir. */
+          var defaultBtn = filterButtons[1] || filterButtons[0];
+          if (defaultBtn) {
+            filterButtons.forEach(function (b) { b.classList.remove('is-active'); });
+            defaultBtn.classList.add('is-active');
+            applyFilter(defaultBtn.getAttribute('data-filter'));
+          }
         });
       }
       var galleryStarted = false;
       function startGallery(customers) {
         if (galleryStarted) return;
         galleryStarted = true;
-        loadGallery(customers && customers.length ? customers : galleryCustomers);
+
+        /* ÖNEMLİ: Admin panelinden (data/content.json) bir müşteri listesi
+           gelirse, bunu index.html içindeki galleryCustomers listesinin
+           YERİNE koymak yerine İKİSİNİ BİRLEŞTİRİYORUZ. Böylece:
+           - index.html dosyasını elle düzenleyip eklediğiniz bir müşteri,
+             admin panelindeki eski/kısa liste tarafından silinmez.
+           - Admin panelinden eklenen müşteriler de aynı şekilde görünür.
+           Aynı slug hem admin panelinde hem index.html'de varsa, admin
+           panelindeki isim (varsa) esas alınır. */
+        var merged = (galleryCustomers || []).slice();
+        (customers || []).forEach(function (c) {
+          if (!c || !c.slug) return;
+          var existing = merged.filter(function (m) { return m.slug === c.slug; })[0];
+          if (existing) {
+            existing.name = c.name || existing.name;
+          } else {
+            merged.push(c);
+          }
+        });
+
+        loadGallery(merged);
       }
       /* Admin panelinden (data/content.json) müşteri listesi gelirse onu kullan */
       window.__setGalleryCustomers = function (list) { startGallery(list); };
@@ -1159,6 +1199,18 @@
           <label for="arizaIletisim">İletişim Bilgisi (Telefon / E-posta)</label>
           <input type="text" id="arizaIletisim" name="İletişim Bilgisi" required>
         </div>
+        <div class="form-row form-row-check">
+          <label class="form-check">
+            <input type="checkbox" id="kvkkOnayAriza" name="KVKK Onayı" required>
+            <span>
+              <!-- DÜZENLEME NOTU: KVKK Aydınlatma Metniniz ayrı bir sayfada
+                   yayınlandığında, aşağıdaki metni bir bağlantıya (<a href="...">)
+                   dönüştürebilirsiniz. -->
+              Kişisel verilerimin, tarafıma dönüş yapılabilmesi amacıyla 6698 sayılı
+              KVKK kapsamında işlenmesini kabul ediyorum.
+            </span>
+          </label>
+        </div>
 
         <button type="submit" class="btn btn-accent">Arıza Kaydı Oluştur</button>
         <p class="form-status" id="ticketStatus" role="status" aria-live="polite"></p>
@@ -1203,8 +1255,18 @@
           turYazilim.addEventListener('change', updateType);
           updateType();
 
+          var kvkkOnayAriza = document.getElementById('kvkkOnayAriza');
+
           form.addEventListener('submit', function (e) {
             e.preventDefault();
+
+            if (kvkkOnayAriza && !kvkkOnayAriza.checked) {
+              status.textContent = 'Devam etmek için lütfen KVKK metnini onaylayın.';
+              status.className = 'form-status form-status-error';
+              kvkkOnayAriza.focus();
+              return;
+            }
+
             var btn = form.querySelector('button[type="submit"]');
             var originalText = btn.textContent;
             btn.disabled = true;
