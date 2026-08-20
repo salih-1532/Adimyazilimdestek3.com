@@ -695,6 +695,8 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   position:absolute;
   left:20px;
   top:20px;
+  z-index:2;
+  display:block;
   background:rgba(15,23,42,.78);
   backdrop-filter:blur(6px);
   color:var(--white);
@@ -704,6 +706,10 @@ p{ margin:0 0 1em; color:var(--text-muted); }
   padding:.4em .8em;
   border-radius:999px;
   pointer-events:none;
+  max-width:calc(100% - 40px);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 /* barkod temalı alt şerit: sitenin genel barkod motifiyle uyumlu çerçeve kapanışı */
